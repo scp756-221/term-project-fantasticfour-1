@@ -119,7 +119,7 @@ def delete_playlist(playlist_id):
     url = db['name'] + '/' + db['endpoint'][2]
     response = requests.delete(
         url,
-        params={"objtype": "music", "objkey": playlist_id},
+        params={"objtype": "playlist", "objkey": playlist_id},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
