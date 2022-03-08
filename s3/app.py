@@ -69,15 +69,15 @@ def list_all():
     return {}
 
 
-@bp.route('/<music_id>', methods=['GET'])
-def get_song(music_id):
+@bp.route('/<playlist_id>', methods=['GET'])
+def get_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    payload = {"objtype": "music", "objkey": music_id}
+    payload = {"objtype": "playlist", "objkey": playlist_id}
     url = db['name'] + '/' + db['endpoint'][0]
     response = requests.get(
         url,
@@ -108,8 +108,8 @@ def create_song():
     return (response.json())
 
 
-@bp.route('/<music_id>', methods=['DELETE'])
-def delete_song(music_id):
+@bp.route('/<playlist_id>', methods=['DELETE'])
+def delete_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -119,7 +119,7 @@ def delete_song(music_id):
     url = db['name'] + '/' + db['endpoint'][2]
     response = requests.delete(
         url,
-        params={"objtype": "music", "objkey": music_id},
+        params={"objtype": "music", "objkey": playlist_id},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
