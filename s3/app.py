@@ -66,8 +66,68 @@ def list_all():
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    # list all songs here
+    # list all playlists here
     return {}
+
+
+@bp.route('/<music_id>', methods=['GET'])
+def get_song(music_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    payload = {"objtype": "music", "objkey": music_id}
+    url = db['name'] + '/' + db['endpoint'][0]
+    response = requests.get(
+        url,
+        params=payload,
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+
+@bp.route('/', methods=['POST'])
+def create_playlist():
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    try:
+        content = request.get_json()
+        PlaylistTitle = content['title']
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+    url = db['name'] + '/' + db['endpoint'][1]
+    response = requests.post(
+        url,
+        json={"objtype": "playlist", "title": PlaylistTitle},
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+
+@bp.route('/<playlist_id>', methods=['PUT'])
+def remove_song_from_playlist(playlist_id, music_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}), status=401,
+                        mimetype='application/json')
+    try:
+        content = request.get_json()
+        PlaylistTitle = content['title']
+        Songs = content['songs']
+        Songs.remove(music_id)
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
+        url,
+        params={"objtype": "playlist", "objkey": playlist_id},
+        json={"title": PlaylistTitle, "songs": Songs})
+    return (response.json())
 
 
 @bp.route('/<playlist_id>', methods=['GET'])
