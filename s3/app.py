@@ -39,7 +39,8 @@ db = {
     "endpoint": [
         "read",
         "write",
-        "delete"
+        "delete",
+        "update"
     ]
 }
 bp = Blueprint('app', __name__)
@@ -57,7 +58,7 @@ def readiness():
     return Response("", status=200, mimetype="application/json")
 
 
-@bp.route('/<user_id>', methods=['GET'])
+@bp.route('/', methods=['GET'])
 def list_all():
     headers = request.headers
     # check header here
@@ -65,14 +66,8 @@ def list_all():
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    payload = {"objtype": "playlist", "objkey": user_id}
-    url = db['name'] + '/' + db['endpoint'][0]
-    response = requests.get(
-        url,
-        params=payload,
-        headers={'Authorization': headers['Authorization']})
-    # list all songs here
-    return (response.json())
+    # list all playlists here
+    return {}
 
 
 @bp.route('/<music_id>', methods=['GET'])
@@ -102,40 +97,38 @@ def create_playlist():
                         mimetype='application/json')
     try:
         content = request.get_json()
-        PlaylistTitle = content['PlaylistTitle']
+        PlaylistTitle = content['title']
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
-        json={"objtype": "playlist", "PlaylistTitle": PlaylistTitle},
+        json={"objtype": "playlist", "title": PlaylistTitle},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
 
-@bp.route('/<music_id>', methods=['DELETE'])
-def delete_song(music_id):
+@bp.route('/<playlist_id>', methods=['PUT'])
+def remove_song_from_playlist(playlist_id, music_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
-        return Response(json.dumps({"error": "missing auth"}),
-                        status=401,
+        return Response(json.dumps({"error": "missing auth"}), status=401,
                         mimetype='application/json')
-    url = db['name'] + '/' + db['endpoint'][2]
-    response = requests.delete(
+    try:
+        content = request.get_json()
+        PlaylistTitle = content['title']
+        Songs = content['songs']
+        Songs.remove(music_id)
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
         url,
-        params={"objtype": "music", "objkey": music_id},
-        headers={'Authorization': headers['Authorization']})
+        params={"objtype": "playlist", "objkey": playlist_id},
+        json={"title": PlaylistTitle, "songs": Songs})
     return (response.json())
 
-
-@bp.route('/test', methods=['GET'])
-def test():
-    # This value is for user scp756-221
-    if ('1fd03b422214ed8bf86c9ecff06813d2fae484c708e2321c10b7a3576178d8a9' !=
-            ucode):
-        raise Exception("Test failed")
-    return {}
 
 
 # All database calls will have this prefix.  Prometheus metric
