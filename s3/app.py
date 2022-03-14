@@ -39,7 +39,8 @@ db = {
     "endpoint": [
         "read",
         "write",
-        "delete"
+        "delete",
+        "update"
     ]
 }
 bp = Blueprint('app', __name__)
@@ -86,28 +87,6 @@ def get_playlist(playlist_id):
     return (response.json())
 
 
-@bp.route('/', methods=['POST'])
-def create_song():
-    headers = request.headers
-    # check header here
-    if 'Authorization' not in headers:
-        return Response(json.dumps({"error": "missing auth"}),
-                        status=401,
-                        mimetype='application/json')
-    try:
-        content = request.get_json()
-        Artist = content['Artist']
-        SongTitle = content['SongTitle']
-    except Exception:
-        return json.dumps({"message": "error reading arguments"})
-    url = db['name'] + '/' + db['endpoint'][1]
-    response = requests.post(
-        url,
-        json={"objtype": "music", "Artist": Artist, "SongTitle": SongTitle},
-        headers={'Authorization': headers['Authorization']})
-    return (response.json())
-
-
 @bp.route('/<playlist_id>', methods=['DELETE'])
 def delete_playlist(playlist_id):
     headers = request.headers
@@ -123,20 +102,32 @@ def delete_playlist(playlist_id):
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
-
-@bp.route('/test', methods=['GET'])
-def test():
-    # This value is for user scp756-221
-    if ('1fd03b422214ed8bf86c9ecff06813d2fae484c708e2321c10b7a3576178d8a9' !=
-            ucode):
-        raise Exception("Test failed")
-    return {}
+@bp.route('/<playlist_id>', methods=['PUT'])
+def add_song_to_playlist(playlist_id, music_id ):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}), status=401,
+                        mimetype='application/json')
+    try:
+        content = request.get_json()
+        title = content['title']
+        songs = content['songs']
+        songs = songs.remove(music_id)
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
+        url,
+        params={"objtype": "user", "objkey": playlist_id},
+        json={"title": title, "songs": songs})
+    return (response.json())
 
 
 # All database calls will have this prefix.  Prometheus metric
 # calls will not---they will have route '/metrics'.  This is
 # the conventional organization.
-app.register_blueprint(bp, url_prefix='/api/v1/music/')
+app.register_blueprint(bp, url_prefix='/api/playlist/')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
