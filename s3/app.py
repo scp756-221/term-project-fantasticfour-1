@@ -32,7 +32,7 @@ ucode = unique_code.exercise_hash(os.getenv('EXER'))
 app = Flask(__name__)
 
 metrics = PrometheusMetrics(app)
-metrics.info('app_info', 'Music process')
+metrics.info('app_info', 'Playlist process')
 
 db = {
     "name": "http://cmpt756db:30002/api/v1/datastore",
@@ -173,7 +173,7 @@ def add_song_to_playlist(playlist_id, music_id ):
         content = request.get_json()
         title = content['title']
         songs = content['songs']
-        songs = songs.remove(music_id)
+        songs = songs.append(music_id)
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][3]
@@ -182,6 +182,7 @@ def add_song_to_playlist(playlist_id, music_id ):
         params={"objtype": "user", "objkey": playlist_id},
         json={"title": title, "songs": songs})
     return (response.json())
+
 
 
 # All database calls will have this prefix.  Prometheus metric
