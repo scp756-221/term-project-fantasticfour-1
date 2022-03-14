@@ -130,6 +130,60 @@ def remove_song_from_playlist(playlist_id, music_id):
     return (response.json())
 
 
+@bp.route('/<playlist_id>', methods=['GET'])
+def get_playlist(playlist_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    payload = {"objtype": "playlist", "objkey": playlist_id}
+    url = db['name'] + '/' + db['endpoint'][0]
+    response = requests.get(
+        url,
+        params=payload,
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+
+@bp.route('/<playlist_id>', methods=['DELETE'])
+def delete_playlist(playlist_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    url = db['name'] + '/' + db['endpoint'][2]
+    response = requests.delete(
+        url,
+        params={"objtype": "playlist", "objkey": playlist_id},
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+@bp.route('/<playlist_id>', methods=['PUT'])
+def add_song_to_playlist(playlist_id, music_id ):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}), status=401,
+                        mimetype='application/json')
+    try:
+        content = request.get_json()
+        title = content['title']
+        songs = content['songs']
+        songs = songs.append(music_id)
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
+        url,
+        params={"objtype": "user", "objkey": playlist_id},
+        json={"title": title, "songs": songs})
+    return (response.json())
+
+
 
 # All database calls will have this prefix.  Prometheus metric
 # calls will not---they will have route '/metrics'.  This is
