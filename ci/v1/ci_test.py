@@ -12,15 +12,22 @@ import os
 import sys
 
 # Installed packages
+import pytest
 
 # Local modules
 import create_tables
 import music
+import user
+import playlist
 
 # The services check only that we pass an authorization,
 # not whether it's valid
 DUMMY_AUTH = 'Bearer A'
 
+@pytest.fixture
+def song(request):
+    # Recorded 1956
+    return ('Elvis Presley', 'Hound Dog')
 
 def parse_args():
     """Parse the command-line arguments.
@@ -29,7 +36,7 @@ def parse_args():
     -------
     namespace
         A namespace of all the arguments, augmented with names
-        'user_url' and 'music_url'.
+        'user_url', 'music_url' and 'playlist_url'.
     """
     argp = argparse.ArgumentParser(
         'ci_test',
@@ -54,16 +61,27 @@ def parse_args():
         help="Port number of music service."
         )
     argp.add_argument(
+        'playlist_address',
+        help="DNS name or IP address of playlist service."
+        )
+    argp.add_argument(
+        'playlist_port',
+        type=int,
+        help="Port number of playlist service."
+        )
+    argp.add_argument(
         'table_suffix',
         help="Suffix to add to table names (not including leading "
              "'-').  If suffix is 'scp756-2022', the music table "
              "will be 'Music-scp756-2022'."
     )
     args = argp.parse_args()
-    args.user_url = "http://{}:{}/api/v1/user/".format(
+    args.user_url = "http://{}:{}/api/v2/user/".format(
         args.user_address, args.user_port)
-    args.music_url = "http://{}:{}/api/v1/music/".format(
+    args.music_url = "http://{}:{}/api/v2/music/".format(
         args.music_address, args.music_port)
+    args.playlist_url = "http://{}:{}/api/v2/playlist/".format(
+        args.playlist_address, args.playlist_port)
     return args
 
 
@@ -118,7 +136,8 @@ def setup(args):
         args.access_key_id,
         args.secret_access_key,
         'Music-' + args.table_suffix,
-        'User-' + args.table_suffix
+        'User-' + args.table_suffix,
+        'PlayList-' + args.table_suffix
     )
 
 
@@ -149,15 +168,23 @@ def run_test(args):
     mserv = music.Music(args.music_url, DUMMY_AUTH)
     artist, song = ('Mary Chapin Carpenter', 'John Doe No. 24')
     trc, m_id = mserv.create(artist, song)
-    if trc != 200:
-        sys.exit(1)
+    assert trc == 200
     trc, ra, rs = mserv.read(m_id)
-    if trc == 200:
-        if artist != ra or song != rs:
-            # Fake HTTP code to indicate error
-            trc = 601
-        mserv.delete(m_id)
+    assert (trc == 200 and artist == ra and song == rs)
+    mserv.delete(m_id)
+    assert trc == 200
     return trc
+
+def test_simple_run(mserv, song):
+    # Original recording, 1952
+    orig_artist = 'Big Mama Thornton'
+    trc, m_id = mserv.create(song[0], song[1], orig_artist)
+    assert trc == 200
+    trc, artist, title, oa = mserv.read(m_id)
+    assert (trc == 200 and artist == song[0] and title == song[1]
+            and oa == orig_artist)
+    mserv.delete(m_id)
+    # No status to check
 
 
 if __name__ == '__main__':

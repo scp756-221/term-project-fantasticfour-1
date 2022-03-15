@@ -1,5 +1,5 @@
 """
-Create the Music and User tables
+Create the Music, User and PlayList tables
 
 This is intended to be used within a continuous integration test.
 As such, it presumes that it is creating the tables in a local

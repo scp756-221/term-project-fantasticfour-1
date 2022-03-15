@@ -28,7 +28,7 @@ class Music():
         self._url = url
         self._auth = auth
 
-    def create(self, artist, song):
+    def create_song(self, artist, song):
         """Create an artist, song pair.
 
         Parameters
@@ -52,7 +52,7 @@ class Music():
         )
         return r.status_code, r.json()['music_id']
 
-    def read(self, m_id):
+    def read_song(self, m_id):
         """Read an artist, song pair.
 
         Parameters
@@ -81,7 +81,7 @@ class Music():
         item = r.json()['Items'][0]
         return r.status_code, item['Artist'], item['SongTitle']
 
-    def delete(self, m_id):
+    def delete_song(self, m_id):
         """Delete an artist, song pair.
 
         Parameters
@@ -94,7 +94,8 @@ class Music():
         Does not return anything. The music delete operation
         always returns 200, HTTP success.
         """
-        requests.delete(
+        r = requests.delete(
             self._url + m_id,
             headers={'Authorization': self._auth}
         )
+        return r.status_code
