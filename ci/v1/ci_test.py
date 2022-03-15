@@ -76,11 +76,11 @@ def parse_args():
              "will be 'Music-scp756-2022'."
     )
     args = argp.parse_args()
-    args.user_url = "http://{}:{}/api/v2/user/".format(
+    args.user_url = "http://{}:{}/api/v1/user/".format(
         args.user_address, args.user_port)
-    args.music_url = "http://{}:{}/api/v2/music/".format(
+    args.music_url = "http://{}:{}/api/v1/music/".format(
         args.music_address, args.music_port)
-    args.playlist_url = "http://{}:{}/api/v2/playlist/".format(
+    args.playlist_url = "http://{}:{}/api/v1/playlist/".format(
         args.playlist_address, args.playlist_port)
     return args
 
@@ -167,25 +167,45 @@ def run_test(args):
     """
     mserv = music.Music(args.music_url, DUMMY_AUTH)
     artist, song = ('Mary Chapin Carpenter', 'John Doe No. 24')
-    trc, m_id = mserv.create(artist, song)
+    trc, m_id = mserv.create_song(artist, song)
     assert trc == 200
-    trc, ra, rs = mserv.read(m_id)
+    trc, ra, rs = mserv.read_song(m_id)
     assert (trc == 200 and artist == ra and song == rs)
-    mserv.delete(m_id)
+    trc = mserv.delete_song(m_id)
     assert trc == 200
+
+    userv = user.User(args.user_url, DUMMY_AUTH)
+    fname, lname, email = ('Mohamadreza', 'Dokhah', 'mda85@sfu.ca')
+    trc, u_id = userv.create_user(fname, lname, email)
+    assert trc == 200
+    trc, rf, rl, re = userv.get_user(u_id)
+    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    fname, lname, email = ('Mohammadreza', 'Dorkhah', 'mda84@sfu.ca')
+    trc, rf, rl, re = userv.update_user(u_id, fname, lname, email)
+    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    trc, rf, rl, re = userv.get_user(u_id)
+    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    trc = userv.delete_user(u_id)
+    assert trc == 200
+    trc = userv.login(u_id)
+    assert trc == 200
+    trc = userv.logoff()
+    assert trc == 200
+
+    pserv = playlist.PlayList(args.playlist_url, DUMMY_AUTH)
+    title, songs = ('My Favourites', [])
+    trc, p_id = pserv.create_playlist(title, songs)
+    assert trc == 200
+    trc, rt, rs = pserv.get_playlist(p_id)
+    assert (trc == 200 and title == rt and songs == rs)
+    trc = pserv.add_song_to_playlist(p_id, m_id)
+    assert trc == 200
+    trc = pserv.remove_song_from_playlist(p_id, m_id)
+    assert trc == 200
+    trc = pserv.delete_playlist(p_id)
+    assert trc == 200
+
     return trc
-
-def test_simple_run(mserv, song):
-    # Original recording, 1952
-    orig_artist = 'Big Mama Thornton'
-    trc, m_id = mserv.create(song[0], song[1], orig_artist)
-    assert trc == 200
-    trc, artist, title, oa = mserv.read(m_id)
-    assert (trc == 200 and artist == song[0] and title == song[1]
-            and oa == orig_artist)
-    mserv.delete(m_id)
-    # No status to check
-
 
 if __name__ == '__main__':
     args = parse_args()

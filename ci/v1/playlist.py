@@ -163,7 +163,7 @@ def delete_playlist(playlist_id):
     return (response.json())
 
 @bp.route('/<playlist_id>', methods=['PUT'])
-def add_song_to_playlist(playlist_id, music_id ):
+def add_song_to_playlist(playlist_id, music_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
