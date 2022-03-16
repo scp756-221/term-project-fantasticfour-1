@@ -7,6 +7,7 @@ Python  API for the user service.
 # Installed packages
 import requests
 
+
 class User():
     """Python API for the user service.
 
@@ -28,7 +29,7 @@ class User():
         self._auth = auth
 
     def update_user(self, u_id, fname, lname, email):
-        r = requests.post(
+        r = requests.put(
             self._url + u_id,
             json={'fname': fname,
                   'lname': lname,

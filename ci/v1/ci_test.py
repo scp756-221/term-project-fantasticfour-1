@@ -147,7 +147,7 @@ def run_test(args):
     Parameters
     ----------
     args: namespace
-        The arguments for the test. Uses music_url.
+        The arguments for the test.
 
     Prerequisites
     -------------
@@ -193,13 +193,17 @@ def run_test(args):
     assert trc == 200
 
     pserv = playlist.PlayList(args.playlist_url, DUMMY_AUTH)
-    title, songs = ('My Favourites', [])
-    trc, p_id = pserv.create_playlist(title, songs)
+    title = 'My Favourites'
+    trc, p_id = pserv.create_playlist(title)
     assert trc == 200
     trc, rt, rs = pserv.get_playlist(p_id)
-    assert (trc == 200 and title == rt and songs == rs)
+    assert (trc == 200 and title == rt and [] == rs)
+    trc, m_id = mserv.create_song(artist, song)
+    assert trc == 200
     trc = pserv.add_song_to_playlist(p_id, m_id)
     assert trc == 200
+    trc, rt, rs = pserv.get_playlist(p_id)
+    assert (trc == 200 and title == rt and [m_id] == rs)
     trc = pserv.remove_song_from_playlist(p_id, m_id)
     assert trc == 200
     trc = pserv.delete_playlist(p_id)
