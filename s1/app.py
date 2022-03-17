@@ -71,6 +71,7 @@ def update_user(user_id):
                         mimetype='application/json')
     try:
         content = request.get_json()
+        playlist = content['playlist']
         email = content['email']
         fname = content['fname']
         lname = content['lname']
@@ -80,7 +81,7 @@ def update_user(user_id):
     response = requests.put(
         url,
         params={"objtype": "user", "objkey": user_id},
-        json={"email": email, "fname": fname, "lname": lname})
+        json={"email": email, "fname": fname, "lname": lname, "playlist": playlist})
     return (response.json())
 
 
@@ -96,6 +97,7 @@ def create_user():
         lname = content['lname']
         email = content['email']
         fname = content['fname']
+        playlist = content['playlist']
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][1]
@@ -104,7 +106,8 @@ def create_user():
         json={"objtype": "user",
               "lname": lname,
               "email": email,
-              "fname": fname})
+              "fname": fname,
+              "playlist": playlist})
     return (response.json())
 
 
