@@ -138,7 +138,7 @@ def get_user(user_id):
     return (response.json())
 
 
-@bp.route('/login', methods=['PUT'])
+@bp.route('/login', methods=['GET'])
 def login():
     try:
         content = request.get_json()

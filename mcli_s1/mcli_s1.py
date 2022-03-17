@@ -160,6 +160,55 @@ Enter 'help' for command list.
                 i['email'],
                 i['fname'],
                 i['lname']))
+
+    def do_login(self, arg):
+        """
+        Login to user service
+
+        Parameters
+        ----------
+        user:  user_id 
+            The user_id of the user. 
+
+        Examples
+        --------
+        login 6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea
+        """
+        url = get_url(self.name, self.port)
+        payload = {'uid' : arg.strip()}
+        r = requests.get(
+            url+'login',
+            json=payload,
+            headers={'Authorization': DEFAULT_AUTH}
+            )
+        if r.status_code != 200:
+            print("Non-successful status code: {}. Login Failed".format(r.status_code))
+        else:
+            print('Login Successful')
+    
+    def do_logoff(self, arg):
+        """
+        Logoff from user service
+
+        Parameters
+        ----------
+        None
+
+        Examples
+        --------
+        logoff
+        """
+        url = get_url(self.name, self.port)
+        payload = {'jwt' : 'logoff'}
+        r = requests.get(
+            url+'logoff',
+            json=payload,
+            headers={'Authorization': DEFAULT_AUTH}
+            )
+        if r.status_code != 200:
+            print("Non-successful status code: {}. Logout Failed".format(r.status_code))
+        else:
+            print('Logout Succesful')
     
     def do_quit(self, arg):
         """
