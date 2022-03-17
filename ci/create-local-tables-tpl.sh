@@ -23,7 +23,7 @@ aws dynamodb create-table \
 aws dynamodb create-table \
   --endpoint-url http://0.0.0.0:8000 \
   --region us-west-2 \
-  --table-name PlayList-mda84 \
+  --table-name Playlist-ZZ-REG-ID \
   --attribute-definitions '[{ "AttributeName": "playlist_id", "AttributeType": "S" }]' \
   --key-schema '[{ "AttributeName": "playlist_id", "KeyType": "HASH" }]' \
   --provisioned-throughput '{"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}'
