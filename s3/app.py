@@ -58,37 +58,8 @@ def readiness():
     return Response("", status=200, mimetype="application/json")
 
 
-@bp.route('/', methods=['GET'])
-def list_all():
-    headers = request.headers
-    # check header here
-    if 'Authorization' not in headers:
-        return Response(json.dumps({"error": "missing auth"}),
-                        status=401,
-                        mimetype='application/json')
-    # list all playlists here
-    return {}
-
-
-@bp.route('/<music_id>', methods=['GET'])
-def get_song(music_id):
-    headers = request.headers
-    # check header here
-    if 'Authorization' not in headers:
-        return Response(json.dumps({"error": "missing auth"}),
-                        status=401,
-                        mimetype='application/json')
-    payload = {"objtype": "music", "objkey": music_id}
-    url = db['name'] + '/' + db['endpoint'][0]
-    response = requests.get(
-        url,
-        params=payload,
-        headers={'Authorization': headers['Authorization']})
-    return (response.json())
-
-
 @bp.route('/', methods=['POST'])
-def create_playlist():
+def create_playlist(user_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -100,11 +71,47 @@ def create_playlist():
         PlaylistTitle = content['title']
     except Exception:
         return json.dumps({"message": "error reading arguments"})
+
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
         json={"objtype": "playlist", "title": PlaylistTitle},
         headers={'Authorization': headers['Authorization']})
+
+    if response.status_code != 200:
+        print("Non-successful status code:", response.status_code)
+        return json.dumps({"message": "request not successful"})
+
+    content = response.json()
+    playlist_id = content['playlist_id']
+    url = db['name'] + '/' + db['endpoint'][0]
+    payload = {"objtype": "user", "objkey": user_id}
+    response_get = requests.get(
+        url,
+        payload,
+        headers={'Authorization': headers['Authorization']}
+    )
+
+    if response_get.status_code != 200:
+        print("Non-successful status code:", response.status_code)
+        return json.dumps({"message": "request not successful"})
+
+    content = response_get.json()
+    playlist = content['playlist']
+    fname = content['fname']
+    lname = content['lname']
+    email = content['email']
+    playlist.append(playlist_id)
+    url = db['name'] + '/' + db['endpoint'][3]
+    response_update = requests.put(
+        url,
+        params={"objtype": "user", "objkey": user_id},
+        json={"lname": lname,
+              "email": email,
+              "fname": fname,
+              "playlist": playlist}
+    )
+
     return (response.json())
 
 
@@ -118,15 +125,15 @@ def remove_song_from_playlist(playlist_id, music_id):
     try:
         content = request.get_json()
         PlaylistTitle = content['title']
-        Songs = content['songs']
-        Songs.remove(music_id)
+        songs = content['songs']
+        songs.remove(music_id)
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][3]
     response = requests.put(
         url,
         params={"objtype": "playlist", "objkey": playlist_id},
-        json={"title": PlaylistTitle, "songs": Songs})
+        json={"title": PlaylistTitle, "songs": songs})
     return (response.json())
 
 
@@ -148,7 +155,7 @@ def get_playlist(playlist_id):
 
 
 @bp.route('/<playlist_id>', methods=['DELETE'])
-def delete_playlist(playlist_id):
+def delete_playlist(playlist_id, user_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -160,10 +167,46 @@ def delete_playlist(playlist_id):
         url,
         params={"objtype": "playlist", "objkey": playlist_id},
         headers={'Authorization': headers['Authorization']})
+
+    if response.status_code != 200:
+        print("Non-successful status code:", response.status_code)
+        return json.dumps({"message": "request not successful"})
+
+    content = response.json()
+    playlist_id = content['playlist_id']
+    url = db['name'] + '/' + db['endpoint'][0]
+    payload = {"objtype": "user", "objkey": user_id}
+    response_get = requests.get(
+        url,
+        payload,
+        headers={'Authorization': headers['Authorization']}
+    )
+
+    if response_get.status_code != 200:
+        print("Non-successful status code:", response.status_code)
+        return json.dumps({"message": "request not successful"})
+
+    content = response_get.json()
+    playlist = content['playlist']
+    fname = content['fname']
+    lname = content['lname']
+    email = content['email']
+    playlist.remove(playlist_id)
+    url = db['name'] + '/' + db['endpoint'][3]
+    response_update = requests.put(
+        url,
+        params={"objtype": "user", "objkey": user_id},
+        json={"lname": lname,
+              "email": email,
+              "fname": fname,
+              "playlist": playlist}
+    )
+
     return (response.json())
 
+
 @bp.route('/<playlist_id>', methods=['PUT'])
-def add_song_to_playlist(playlist_id, music_id ):
+def add_song_to_playlist(playlist_id, music_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -179,10 +222,9 @@ def add_song_to_playlist(playlist_id, music_id ):
     url = db['name'] + '/' + db['endpoint'][3]
     response = requests.put(
         url,
-        params={"objtype": "user", "objkey": playlist_id},
+        params={"objtype": "playlist", "objkey": playlist_id},
         json={"title": title, "songs": songs})
     return (response.json())
-
 
 
 # All database calls will have this prefix.  Prometheus metric
