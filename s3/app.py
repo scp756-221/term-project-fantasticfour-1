@@ -162,8 +162,9 @@ def delete_playlist(playlist_id):
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
+
 @bp.route('/<playlist_id>', methods=['PUT'])
-def add_song_to_playlist(playlist_id, music_id ):
+def add_song_to_playlist(playlist_id, music_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -182,7 +183,6 @@ def add_song_to_playlist(playlist_id, music_id ):
         params={"objtype": "user", "objkey": playlist_id},
         json={"title": title, "songs": songs})
     return (response.json())
-
 
 
 # All database calls will have this prefix.  Prometheus metric
