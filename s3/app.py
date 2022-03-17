@@ -21,11 +21,11 @@ import requests
 import simplejson as json
 
 # Local modules
-import unique_code
+# import unique_code
 
 # The unique exercise code
 # The EXER environment variable has a value specific to this exercise
-ucode = unique_code.exercise_hash(os.getenv('EXER'))
+# ucode = unique_code.exercise_hash(os.getenv('EXER'))
 
 # The application
 
@@ -59,7 +59,7 @@ def readiness():
 
 
 @bp.route('/', methods=['POST'])
-def create_playlist(user_id):
+def create_playlist():
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -69,6 +69,7 @@ def create_playlist(user_id):
     try:
         content = request.get_json()
         PlaylistTitle = content['title']
+        user_id = content['user_id']
     except Exception:
         return json.dumps({"message": "error reading arguments"})
 
@@ -97,10 +98,10 @@ def create_playlist(user_id):
         return json.dumps({"message": "request not successful"})
 
     content = response_get.json()
-    playlist = content['playlist']
-    fname = content['fname']
-    lname = content['lname']
-    email = content['email']
+    playlist = content['Items'][0]['playlist']
+    fname = content['Items'][0]['fname']
+    lname = content['Items'][0]['lname']
+    email = content['Items'][0]['email']
     playlist.append(playlist_id)
     url = db['name'] + '/' + db['endpoint'][3]
     response_update = requests.put(
@@ -116,7 +117,7 @@ def create_playlist(user_id):
 
 
 @bp.route('/<playlist_id>', methods=['PUT'])
-def remove_song_from_playlist(playlist_id, music_id):
+def remove_song_from_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -126,6 +127,7 @@ def remove_song_from_playlist(playlist_id, music_id):
         content = request.get_json()
         PlaylistTitle = content['title']
         songs = content['songs']
+        music_id = content['music_id']
         songs.remove(music_id)
     except Exception:
         return json.dumps({"message": "error reading arguments"})
@@ -155,7 +157,7 @@ def get_playlist(playlist_id):
 
 
 @bp.route('/<playlist_id>', methods=['DELETE'])
-def delete_playlist(playlist_id, user_id):
+def delete_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -174,6 +176,7 @@ def delete_playlist(playlist_id, user_id):
 
     content = response.json()
     playlist_id = content['playlist_id']
+    user_id = content['user_id']
     url = db['name'] + '/' + db['endpoint'][0]
     payload = {"objtype": "user", "objkey": user_id}
     response_get = requests.get(
@@ -187,10 +190,10 @@ def delete_playlist(playlist_id, user_id):
         return json.dumps({"message": "request not successful"})
 
     content = response_get.json()
-    playlist = content['playlist']
-    fname = content['fname']
-    lname = content['lname']
-    email = content['email']
+    playlist = content['Items'][0]['playlist']
+    fname = content['Items'][0]['fname']
+    lname = content['Items'][0]['lname']
+    email = content['Items'][0]['email']
     playlist.remove(playlist_id)
     url = db['name'] + '/' + db['endpoint'][3]
     response_update = requests.put(
@@ -206,7 +209,7 @@ def delete_playlist(playlist_id, user_id):
 
 
 @bp.route('/<playlist_id>', methods=['PUT'])
-def add_song_to_playlist(playlist_id, music_id):
+def add_song_to_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -216,6 +219,7 @@ def add_song_to_playlist(playlist_id, music_id):
         content = request.get_json()
         title = content['title']
         songs = content['songs']
+        music_id = content['music_id']
         songs = songs.append(music_id)
     except Exception:
         return json.dumps({"message": "error reading arguments"})
@@ -237,7 +241,7 @@ if __name__ == '__main__':
         logging.error("missing port arg 1")
         sys.exit(-1)
 
-    app.logger.error("Unique code: {}".format(ucode))
+    # app.logger.error("Unique code: {}".format(ucode))
     p = int(sys.argv[1])
     # Do not set debug=True---that will disable the Prometheus metrics
     app.run(host='0.0.0.0', port=p, threaded=True)
