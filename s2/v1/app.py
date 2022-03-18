@@ -5,7 +5,7 @@ Sample application---music service.
 
 # Standard library modules
 import logging
-import os
+# import os
 import sys
 
 # Installed packages

@@ -78,6 +78,5 @@ class User():
             )
         return r.status_code
 
-
     def logoff(self):
         return 200
