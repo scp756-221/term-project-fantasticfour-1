@@ -81,7 +81,9 @@ def update_user(user_id):
     response = requests.put(
         url,
         params={"objtype": "user", "objkey": user_id},
-        json={"email": email, "fname": fname, "lname": lname, "playlist": playlist})
+        json={"email": email, "fname": fname,
+              "lname": lname,
+              "playlist": playlist})
     return (response.json())
 
 
