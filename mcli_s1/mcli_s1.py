@@ -106,7 +106,8 @@ Enter 'help' for command list.
             )
         if r.status_code != 200:
             print("Non-successful status code:", r.status_code)
-        print(r.json())
+        else:
+            print('User information updated')
 
     def do_deleteUser(self, arg):
         """
@@ -176,16 +177,18 @@ Enter 'help' for command list.
         """
         url = get_url(self.name, self.port)
         payload = {'uid' : arg.strip()}
-        r = requests.get(
+        r = requests.put(
             url+'login',
             json=payload,
             headers={'Authorization': DEFAULT_AUTH}
             )
-        if r.status_code != 200:
-            print("Non-successful status code: {}. Login Failed".format(r.status_code))
-        else:
-            print('Login Successful')
+        print(r)
+        #if r.status_code != 200:
+        #    print("Non-successful status code: {}. Login Failed".format(r.status_code))
+        #else:
+        #    print('Login Successful')
     
+
     def do_logoff(self, arg):
         """
         Logoff from user service

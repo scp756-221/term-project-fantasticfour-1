@@ -138,7 +138,7 @@ def get_user(user_id):
     return (response.json())
 
 
-@bp.route('/login', methods=['GET'])
+@bp.route('/login', methods=['PUT'])
 def login():
     try:
         content = request.get_json()
@@ -152,6 +152,7 @@ def login():
         encoded = jwt.encode({'user_id': uid, 'time': time.time()},
                              'secret',
                              algorithm='HS256')
+        print(encoded)
     return encoded
 
 
