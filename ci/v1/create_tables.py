@@ -18,7 +18,8 @@ import boto3
 
 
 # Function definitions
-def create_tables(url, region, access_key_id, secret_access_key, music, user, playlist):
+def create_tables(url, region, access_key_id, 
+                  secret_access_key, music, user, playlist):
     """ Create the music and user tables in DynamoDB.
 
     Parameters

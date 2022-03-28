@@ -24,10 +24,12 @@ import playlist
 # not whether it's valid
 DUMMY_AUTH = 'Bearer A'
 
+
 @pytest.fixture
 def song(request):
     # Recorded 1956
     return ('Elvis Presley', 'Hound Dog')
+
 
 def parse_args():
     """Parse the command-line arguments.
@@ -179,12 +181,12 @@ def run_test(args):
     trc, u_id = userv.create_user(fname, lname, email)
     assert trc == 200
     trc, rf, rl, re = userv.get_user(u_id)
-    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    assert (trc == 200 and fname == rf and lname == rl and email == re)
     fname, lname, email = ('Mohammadreza', 'Dorkhah', 'mda84@sfu.ca')
     trc, rf, rl, re = userv.update_user(u_id, fname, lname, email)
-    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    assert (trc == 200 and fname == rf and lname == rl and email == re)
     trc, rf, rl, re = userv.get_user(u_id)
-    assert (trc == 200 and fname == rf and lname == rl, email == re)
+    assert (trc == 200 and fname == rf and lname == rl and email == re)
     trc = userv.delete_user(u_id)
     assert trc == 200
     trc = userv.login(u_id)
@@ -210,6 +212,7 @@ def run_test(args):
     assert trc == 200
 
     return trc
+
 
 if __name__ == '__main__':
     args = parse_args()
