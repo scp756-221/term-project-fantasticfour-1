@@ -35,7 +35,7 @@ object RMusic {
   val rmusic = forever("i") {
     feed(feeder)
     .exec(http("RMusic ${i}")
-      .get("/api/v1/music/${UUID}"))
+      .get("/api/v1/music/${music_id}"))
       .pause(1)
   }
 
@@ -48,7 +48,20 @@ object RUser {
   val ruser = forever("i") {
     feed(feeder)
     .exec(http("RUser ${i}")
-      .get("/api/v1/user/${UUID}"))
+      .get("/api/v1/user/${user_id}"))
+    .pause(1)
+  }
+
+}
+
+object RPlaylist {
+
+  val feeder = csv("playlist.csv").eager.random
+
+  val rplaylist = forever("i") {
+    feed(feeder)
+    .exec(http("RPlaylist ${i}")
+      .get("/api/playlist/${playlist_id}"))
     .pause(1)
   }
 
@@ -63,7 +76,7 @@ object RUserVarying {
   val ruser = forever("i") {
     feed(feeder)
     .exec(http("RUserVarying ${i}")
-      .get("/api/v1/user/${UUID}"))
+      .get("/api/v1/user/${user_id}"))
     .pause(1, 60)
   }
 }
@@ -78,7 +91,22 @@ object RMusicVarying {
   val rmusic = forever("i") {
     feed(feeder)
     .exec(http("RMusicVarying ${i}")
-      .get("/api/v1/music/${UUID}"))
+      .get("/api/v1/music/${music_id}"))
+    .pause(1, 60)
+  }
+}
+
+/*
+  After one S3 read, pause a random time between 1 and 60 s
+*/
+
+object RMusicVarying {
+  val feeder = csv("playlist.csv").eager.random
+
+  val rmusic = forever("i") {
+    feed(feeder)
+    .exec(http("RPlaylistVarying ${i}")
+      .get("/api/playlist/${playlist_id}"))
     .pause(1, 60)
   }
 }
@@ -88,20 +116,26 @@ object RMusicVarying {
   The Gatling EDSL only honours the second (Music) read,
   ignoring the first read of User. [Shrug-emoji] 
  */
-object RBoth {
+object RAll {
 
   val u_feeder = csv("users.csv").eager.circular
   val m_feeder = csv("music.csv").eager.random
+  val p_feeder = csv("playlist.csv").eager.random
 
-  val rboth = forever("i") {
+  val rall = forever("i") {
     feed(u_feeder)
     .exec(http("RUser ${i}")
-      .get("/api/v1/user/${UUID}"))
+      .get("/api/v1/user/${user_id}"))
     .pause(1);
 
     feed(m_feeder)
     .exec(http("RMusic ${i}")
-      .get("/api/v1/music/${UUID}"))
+      .get("/api/v1/music/${music_id}"))
+      .pause(1)
+
+    feed(p_feeder)
+    .exec(http("RPlaylist ${i}")
+      .get("/api/playlist/${playlist_id}"))
       .pause(1)
   }
 
@@ -134,6 +168,15 @@ class ReadMusicSim extends ReadTablesSim {
   ).protocols(httpProtocol)
 }
 
+class ReadPlaylistSim extends ReadTablesSim {
+  val scnReadPlaylist = scenario("ReadPlaylist")
+    .exec(RPlaylist.rplaylist)
+
+  setUp(
+    scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
 /*
   Read both services concurrently at varying rates.
   Ramp up new users one / 10 s until requested USERS
@@ -146,12 +189,16 @@ class ReadBothVaryingSim extends ReadTablesSim {
   val scnReadUV = scenario("ReadUserVarying")
     .exec(RUserVarying.ruser)
 
+  val scnReadPV = scenario("ReadPlaylistVarying")
+    .exec(RPlaylistVarying.rplaylist)
+
   val users = Utility.envVarToInt("USERS", 10)
 
   setUp(
     // Add one user per 10 s up to specified value
     scnReadMV.inject(rampConcurrentUsers(1).to(users).during(10*users)),
-    scnReadUV.inject(rampConcurrentUsers(1).to(users).during(10*users))
+    scnReadUV.inject(rampConcurrentUsers(1).to(users).during(10*users)),
+    scnReadPV.inject(rampConcurrentUsers(1).to(users).during(10*users))
   ).protocols(httpProtocol)
 }
 
