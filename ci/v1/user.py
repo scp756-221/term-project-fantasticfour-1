@@ -33,7 +33,8 @@ class User():
             self._url + u_id,
             json={'fname': fname,
                   'lname': lname,
-                  'email': email},
+                  'email': email,
+                  'playlist': []},
             headers={'Authorization': self._auth}
         )
         return r.status_code
@@ -48,7 +49,8 @@ class User():
             self._url,
             json={'fname': fname,
                   'lname': lname,
-                  'email': email},
+                  'email': email,
+                  'playlist': []},
             headers={'Authorization': self._auth}
         )
         return r.status_code, r.json()['user_id']

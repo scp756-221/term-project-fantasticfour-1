@@ -53,9 +53,9 @@ services:
     image: ci_s3
     container_name: cmpt756s3
     ports:
-     - "30003:30003"
+     - "30004:30004"
   test:
-    command: "python ci_test.py cmpt756s1 30000 cmpt756s2 30001 cmpt756s3 30003 ZZ-REG-ID"
+    command: "python ci_test.py cmpt756s1 30000 cmpt756s2 30001 cmpt756s3 30004 ZZ-REG-ID"
     depends_on:
       - dynamodb-local
       - cmpt756db
