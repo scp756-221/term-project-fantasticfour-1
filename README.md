@@ -54,7 +54,7 @@ The resulting output should include tables `User` and `Music`.
 
 ### Reference
 
-This is the tree of this repo. 
+This is the tree of this repo.
 
 
 The CI material at `ci` and `.github/workflows` are presently designed for Assignment 7 and the course's operation. They're not useable for you and should be removed. If you are ambitious or familiar with GitHub action, the one flow that may be _illustrative_ is `ci-to-dockerhub.yaml`. **It is not directly useable as you team repo will not use templates.**
@@ -73,7 +73,7 @@ The CI material at `ci` and `.github/workflows` are presently designed for Assig
 │   └── ./ci/v1.1
 ```
 
-Be careful to only commit files without any secrets (AWS keys). 
+Be careful to only commit files without any secrets (AWS keys).
 ```
 ├── ./cluster
 ```
