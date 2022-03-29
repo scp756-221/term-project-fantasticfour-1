@@ -100,7 +100,7 @@ object RMusicVarying {
   After one S3 read, pause a random time between 1 and 60 s
 */
 
-object RMusicVarying {
+object RPlaylistVarying {
   val feeder = csv("playlist.csv").eager.random
 
   val rmusic = forever("i") {
@@ -116,13 +116,13 @@ object RMusicVarying {
   The Gatling EDSL only honours the second (Music) read,
   ignoring the first read of User. [Shrug-emoji] 
  */
-object RAll {
+object RBoth {
 
   val u_feeder = csv("users.csv").eager.circular
   val m_feeder = csv("music.csv").eager.random
   val p_feeder = csv("playlist.csv").eager.random
 
-  val rall = forever("i") {
+  val rboth = forever("i") {
     feed(u_feeder)
     .exec(http("RUser ${i}")
       .get("/api/v1/user/${user_id}"))
