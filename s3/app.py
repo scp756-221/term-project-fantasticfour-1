@@ -262,7 +262,7 @@ def delete_playlist(playlist_id):
 # All database calls will have this prefix.  Prometheus metric
 # calls will not---they will have route '/metrics'.  This is
 # the conventional organization.
-app.register_blueprint(bp, url_prefix='/api/playlist/')
+app.register_blueprint(bp, url_prefix='/api/v1/playlist/')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
