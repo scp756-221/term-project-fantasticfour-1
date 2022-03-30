@@ -5,7 +5,7 @@ Sample application---music service.
 
 # Standard library modules
 import logging
-import os
+# import os
 import sys
 
 # Installed packages
@@ -105,7 +105,7 @@ def create_playlist():
     email = content['Items'][0]['email']
     playlist.append(playlist_id)
     url = db['name'] + '/' + db['endpoint'][3]
-    response_update = requests.put(
+    requests.put(
         url,
         params={"objtype": "user", "objkey": user_id},
         json={"lname": lname,
@@ -247,7 +247,7 @@ def delete_playlist(playlist_id):
     email = content['Items'][0]['email']
     playlist.remove(playlist_id)
     url = db['name'] + '/' + db['endpoint'][3]
-    response_update = requests.put(
+    requests.put(
         url,
         params={"objtype": "user", "objkey": user_id},
         json={"lname": lname,

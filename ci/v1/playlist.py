@@ -18,7 +18,7 @@ class PlayList():
     ----------
     url: string
         The URL for accessing the playlist service. Often
-        'http://cmpt756s3:30003/'. Note the trailing slash.
+        'http://cmpt756s3:30004/'. Note the trailing slash.
     auth: string
         Authorization code to pass to the playlist service. For many
         implementations, the code is required but its content is
@@ -28,13 +28,15 @@ class PlayList():
         self._url = url
         self._auth = auth
 
-    def create_playlist(self, title):
+    def create_playlist(self, title, u_id):
         r = requests.post(
             self._url,
             json={'title': title,
+                  'user_id': u_id,
                   'songs': []},
             headers={'Authorization': self._auth}
         )
+        print(r.json())
         return r.status_code, r.json()['playlist_id']
 
     def get_playlist(self, p_id):

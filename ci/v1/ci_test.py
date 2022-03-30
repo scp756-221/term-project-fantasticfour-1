@@ -183,8 +183,8 @@ def run_test(args):
     trc, rf, rl, re = userv.get_user(u_id)
     assert (trc == 200 and fname == rf and lname == rl and email == re)
     fname, lname, email = ('Mohammadreza', 'Dorkhah', 'mda84@sfu.ca')
-    trc, rf, rl, re = userv.update_user(u_id, fname, lname, email)
-    assert (trc == 200 and fname == rf and lname == rl and email == re)
+    trc = userv.update_user(u_id, fname, lname, email)
+    assert (trc == 200)
     trc, rf, rl, re = userv.get_user(u_id)
     assert (trc == 200 and fname == rf and lname == rl and email == re)
     trc = userv.delete_user(u_id)
@@ -196,7 +196,7 @@ def run_test(args):
 
     pserv = playlist.PlayList(args.playlist_url, DUMMY_AUTH)
     title = 'My Favourites'
-    trc, p_id = pserv.create_playlist(title)
+    trc, p_id = pserv.create_playlist(title, u_id)
     assert trc == 200
     trc, rt, rs = pserv.get_playlist(p_id)
     assert (trc == 200 and title == rt and [] == rs)
