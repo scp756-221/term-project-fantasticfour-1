@@ -61,7 +61,6 @@ def health():
 def readiness():
     return Response("", status=200, mimetype="application/json")
 
-
 @bp.route('/<user_id>', methods=['PUT'])
 def update_user(user_id):
     headers = request.headers
@@ -86,7 +85,6 @@ def update_user(user_id):
               "playlist": playlist})
     return (response.json())
 
-
 @bp.route('/', methods=['POST'])
 def create_user():
     """
@@ -99,7 +97,8 @@ def create_user():
         lname = content['lname']
         email = content['email']
         fname = content['fname']
-        playlist = content['playlist']
+        playlist = content['playlist'] if 'playlist' in content else []
+
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][1]

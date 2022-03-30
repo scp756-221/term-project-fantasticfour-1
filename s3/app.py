@@ -70,7 +70,7 @@ def create_playlist():
         content = request.get_json()
         PlaylistTitle = content['title']
         user_id = content['user_id']
-        songs = content['songs']
+        songs = content['songs'] if 'songs' in content else []
     except Exception:
         return json.dumps({"message": "error reading arguments"})
 
