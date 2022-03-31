@@ -61,6 +61,7 @@ def health():
 def readiness():
     return Response("", status=200, mimetype="application/json")
 
+
 @bp.route('/<user_id>', methods=['PUT'])
 def update_user(user_id):
     headers = request.headers
@@ -68,22 +69,34 @@ def update_user(user_id):
     if 'Authorization' not in headers:
         return Response(json.dumps({"error": "missing auth"}), status=401,
                         mimetype='application/json')
-    try:
-        content = request.get_json()
-        playlist = content['playlist']
-        email = content['email']
-        fname = content['fname']
-        lname = content['lname']
-    except Exception:
-        return json.dumps({"message": "error reading arguments"})
-    url = db['name'] + '/' + db['endpoint'][3]
-    response = requests.put(
-        url,
-        params={"objtype": "user", "objkey": user_id},
-        json={"email": email, "fname": fname,
-              "lname": lname,
-              "playlist": playlist})
-    return (response.json())
+
+    payload = {"objtype": "user", "objkey": user_id}
+    url = db['name'] + '/' + db['endpoint'][0]
+    response_get = requests.get(url, params=payload)
+    response_get = response_get.json()
+
+    if(response_get['Count'] == 0):
+        return json.dumps({"message" : "No such user. Please check the user id"})
+
+    else: 
+        try:
+            content = request.get_json()
+            playlist = content['playlist']
+            email = content['email']
+            fname = content['fname']
+            lname = content['lname']
+        except Exception:
+            return json.dumps({"message": "error reading arguments"})
+        
+        url = db['name'] + '/' + db['endpoint'][3]
+        response = requests.put(
+            url,
+            params={"objtype": "user", "objkey": user_id},
+            json={"email": email, "fname": fname,
+                "lname": lname,
+                "playlist": playlist})
+        return (response.json())
+
 
 @bp.route('/', methods=['POST'])
 def create_user():
