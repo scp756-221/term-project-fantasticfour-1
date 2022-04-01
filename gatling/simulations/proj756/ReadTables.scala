@@ -57,8 +57,17 @@ object RUser {
 object RPlaylist {
 
   val feeder = csv("playlist.csv").eager.random
+  val user_feeder = csv("user.csv").eager.circular
 
   val rplaylist = forever("i") {
+    feed(feeder)
+    .feed(user_feeder)
+    .exec(http("RPlaylist ${i}")
+      .post("/api/v1/playlist/")
+      .queryParam("user_id", "#{user_id}")
+      .queryParam("title", "#{title}"))
+    .pause(1)
+
     feed(feeder)
     .exec(http("RPlaylist ${i}")
       .get("/api/v1/playlist/${playlist_id}"))
@@ -131,12 +140,12 @@ object RBoth {
     feed(m_feeder)
     .exec(http("RMusic ${i}")
       .get("/api/v1/music/${music_id}"))
-      .pause(1)
+    .pause(1)
 
     feed(p_feeder)
     .exec(http("RPlaylist ${i}")
       .get("/api/vi/playlist/${playlist_id}"))
-      .pause(1)
+    .pause(1)
   }
 
 }
