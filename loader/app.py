@@ -5,6 +5,7 @@ Loader for sample database
 
 # Standard library modules
 import csv
+from json.encoder import py_encode_basestring
 import os
 import time
 
@@ -32,7 +33,7 @@ def build_auth():
     return requests.auth.HTTPBasicAuth('svc-loader', loader_token)
 
 
-def create_user(lname, fname, email, uuid):
+def create_user(user_id, email, fname, lname, playlist):
     """
     Create a user.
     If a record already exists with the same fname, lname, and email,
@@ -46,7 +47,9 @@ def create_user(lname, fname, email, uuid):
               "lname": lname,
               "email": email,
               "fname": fname,
-              "uuid": uuid})
+              "uuid": user_id,
+              "playlist": playlist})
+    print(response)
     return (response.json())
 
 
@@ -67,6 +70,23 @@ def create_song(artist, title, uuid):
     return (response.json())
 
 
+def create_playlist(playlist_id, songs, title):
+    """
+    Create a song.
+    If a record already exists with the same artist and title,
+    the old UUID is replaced with this one.
+    """
+    url = db['name'] + '/load'
+    response = requests.post(
+        url,
+        auth=build_auth(),
+        json={"objtype": "playlist",
+              "playlist_id": playlist_id,
+              "songs": songs,
+              "title": title})
+    return (response.json())
+
+
 def check_resp(resp, key):
     if 'http_status_code' in resp:
         return None
@@ -83,17 +103,19 @@ if __name__ == '__main__':
     with open('{}/users/users.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
         next(rdr)  # Skip header
-        for fn, ln, email, uuid in rdr:
-            resp = create_user(fn.strip(),
-                               ln.strip(),
+        for user_id, email, fname, lname, playlist in rdr:
+            resp = create_user(user_id.strip(),
                                email.strip(),
-                               uuid.strip())
+                               fname.strip(),
+                               lname.strip(),
+                               playlist.strip())
             resp = check_resp(resp, 'user_id')
-            if resp is None or resp != uuid:
-                print('Error creating user {} {} ({}), {}'.format(fn,
-                                                                  ln,
+            if resp is None or resp != user_id:
+                print('Error creating user {} {} ({}), {}, {}'.format(user_id,
                                                                   email,
-                                                                  uuid))
+                                                                  fname,
+                                                                  lname,
+                                                                  playlist))
 
     with open('{}/music/music.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
@@ -107,3 +129,16 @@ if __name__ == '__main__':
                 print('Error creating song {} {}, {}'.format(artist,
                                                              title,
                                                              uuid))
+
+    with open('{}/playlist/playlist.csv'.format(resource_dir), 'r') as inp:
+        rdr = csv.reader(inp)
+        next(rdr)  # Skip header
+        for playlist_id, songs, title in rdr:
+            resp = create_song(playlist_id.strip(),
+                                songs.strip(),
+                                title.strip())
+            resp = check_resp(resp, 'music_id')
+            if resp is None or resp != uuid:
+                print('Error creating song {} {}, {}'.format(playlist_id,
+                                                                songs,
+                                                                title))
