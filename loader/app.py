@@ -81,7 +81,7 @@ def create_playlist(playlist_id, songs, title):
         url,
         auth=build_auth(),
         json={"objtype": "playlist",
-              "playlist_id": playlist_id,
+              "uuid": playlist_id,
               "songs": songs,
               "title": title})
     return (response.json())
@@ -120,10 +120,11 @@ if __name__ == '__main__':
     with open('{}/music/music.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
         next(rdr)  # Skip header
-        for artist, title, uuid in rdr:
+        for uuid, artist, title, in rdr:
             resp = create_song(artist.strip(),
                                title.strip(),
                                uuid.strip())
+                               
             resp = check_resp(resp, 'music_id')
             if resp is None or resp != uuid:
                 print('Error creating song {} {}, {}'.format(artist,
@@ -133,12 +134,12 @@ if __name__ == '__main__':
     with open('{}/playlist/playlist.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
         next(rdr)  # Skip header
-        for playlist_id, songs, title in rdr:
-            resp = create_song(playlist_id.strip(),
-                                songs.strip(),
-                                title.strip())
-            resp = check_resp(resp, 'music_id')
+        for uuid, songs, title in rdr:
+            resp = create_playlist(uuid.strip(),
+                                   songs.strip(),
+                                   title.strip())
+            resp = check_resp(resp, 'playlist_id')
             if resp is None or resp != uuid:
-                print('Error creating song {} {}, {}'.format(playlist_id,
+                print('Error creating playlist {} {}, {}'.format(playlist_id,
                                                                 songs,
                                                                 title))
