@@ -54,9 +54,9 @@ object RUser {
 
 }
 
-object RPlaylist {
+/*object RPlaylist {
 
-  val feeder = csv("playlist.csv").eager.random
+  val feeder = csv("playlist.csv").eager.circular
   val user_feeder = csv("user.csv").eager.circular
 
   val rplaylist = forever("i") {
@@ -68,6 +68,19 @@ object RPlaylist {
       .queryParam("title", "#{title}"))
     .pause(1)
 
+    feed(feeder)
+    .exec(http("RPlaylist ${i}")
+      .get("/api/v1/playlist/${playlist_id}"))
+    .pause(1)
+  }
+
+}*/
+
+object RPlaylist {
+
+  val feeder = csv("playlist.csv").eager.circular
+
+  val rplaylist = forever("i") {
     feed(feeder)
     .exec(http("RPlaylist ${i}")
       .get("/api/v1/playlist/${playlist_id}"))
@@ -125,7 +138,7 @@ object RPlaylistVarying {
   The Gatling EDSL only honours the second (Music) read,
   ignoring the first read of User. [Shrug-emoji] 
  */
-object RBoth {
+/*object RBoth {
 
   val u_feeder = csv("users.csv").eager.circular
   val m_feeder = csv("music.csv").eager.random
@@ -148,7 +161,7 @@ object RBoth {
     .pause(1)
   }
 
-}
+}*/
 
 // Get Cluster IP from CLUSTER_IP environment variable or default to 127.0.0.1 (Minikube)
 class ReadTablesSim extends Simulation {
@@ -191,7 +204,7 @@ class ReadPlaylistSim extends ReadTablesSim {
   Ramp up new users one / 10 s until requested USERS
   is reached for each service.
 */
-class ReadBothVaryingSim extends ReadTablesSim {
+/*class ReadBothVaryingSim extends ReadTablesSim {
   val scnReadMV = scenario("ReadMusicVarying")
     .exec(RMusicVarying.rmusic)
 
@@ -209,7 +222,7 @@ class ReadBothVaryingSim extends ReadTablesSim {
     scnReadUV.inject(rampConcurrentUsers(1).to(users).during(10*users)),
     scnReadPV.inject(rampConcurrentUsers(1).to(users).during(10*users))
   ).protocols(httpProtocol)
-}
+}*/
 
 /*
   This doesn't work---it just reads the Music table.
