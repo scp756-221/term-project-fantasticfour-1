@@ -54,6 +54,77 @@ object RUser {
 
 }
 
+object RPlaylist {
+
+  val feeder = csv("playlist.csv").eager.circular
+
+  val rplaylist = forever("i") {
+    feed(feeder)
+    .exec(http("RPlaylist ${i}")
+      .get("/api/v1/playlist/${playlist_id}"))
+    .pause(1)
+  }
+
+}
+
+object CreatePlaylist {
+  val feeder = csv("playlist.csv").eager.circular
+
+  /*var createPlaylist = forever("i") {
+    feed(feeder)
+    .exec(http("Playlist Body")
+    .post("/api/v1/playlist/")
+    .body(StringBody(
+      """{
+        "title": "${title}",
+        "user_id": "423a10a6-ab66-48c5-a1c7-dffb3169d744"
+        }""")))
+    .pause(1)
+  }*/
+  var createPlaylist = exec(http("Playlist Body")
+                      .post("/api/v1/playlist/")
+                      .body(StringBody(
+                      """{
+                        "title": "The Best Ever!",
+                        "user_id": "423a10a6-ab66-48c5-a1c7-dffb3169d744"
+                        }""")))
+                    .pause(1)                     
+}
+
+object CreateSong {
+  val feeder = csv("music.csv").eager.circular
+
+  var createSong = forever("i") {
+    feed(feeder)
+    .exec(http("Playlist Body")
+    .post("/api/v1/playlist/")
+    .body(StringBody(
+    """{
+      "Artist": "${Artist}",
+      "SongTitle": "${SongTitle}"
+        }""")).check(status.is(200)))
+    .pause(1)
+  }
+}
+
+object CreateUser {
+  val feeder = csv("user.csv").eager.circular
+
+  var createSong = forever("i") {
+    feed(feeder)
+    .exec(http("Playlist Body")
+    .post("/api/v1/playlist/")
+    .body(StringBody(
+    """{
+      "lname": "${lname}",
+      "email": "${email}",
+      "fname": "${fname}",
+      "playlist": "${playlist}"
+        }""")))
+    .pause(1)
+  }
+}
+
 /*object RPlaylist {
 
   val feeder = csv("playlist.csv").eager.circular
@@ -76,18 +147,46 @@ object RUser {
 
 }*/
 
-object RPlaylist {
+/*object AddSongToPlaylist {
+  /* Add Existing Song to Playlist (GET) & (PUT) */
+  val playlist_feeder = csv("playlist.csv").eager.circular
+  val music_feeder = csv("music.csv").eager.circular
 
-  val feeder = csv("playlist.csv").eager.circular
-
-  val rplaylist = forever("i") {
-    feed(feeder)
+  val addSongPlaylist = forever("i") {
+    feed(playlist_feeder).exec(http("RPlaylist ${i}"))
     .exec(http("RPlaylist ${i}")
-      .get("/api/v1/playlist/${playlist_id}"))
+    .get("/api/v1/playlist/${playlist_id}"))
     .pause(1)
+    .exec(http("AddSong to Playlist ${i}")
+    .put("/api/v1/playlist/${playlist_id}"))
+    .pause(1)
+
   }
+}
+*/
+
+/*object AddSongToNewPlaylist {
+  /* Create New Playlist (POST)
+  Add song to new playlist (PUT)
+  */
 
 }
+
+object DeletePlayList {
+  /* Delete from playlist table (DELETE)
+  Delete from User Table (PUT) */
+
+}
+
+object AllActions {
+  /* Create Song (POST) to song table
+     Update User Table (PUT)
+     Create Playlist (POST) to PlayList table
+     Update User Table (PUT)
+     Add Song to Playlist (PUT) Playlist Table
+     */
+}
+*/
 
 /*
   After one S1 read, pause a random time between 1 and 60 s
@@ -199,6 +298,15 @@ class ReadPlaylistSim extends ReadTablesSim {
   ).protocols(httpProtocol)
 }
 
+class CreatePlaylistSim extends ReadTablesSim {
+  val scnCreatePlaylist = scenario("CreatePlaylist")
+  .exec(CreatePlaylist.createPlaylist)
+
+  setUp(
+    scnCreatePlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+
+}
 /*
   Read both services concurrently at varying rates.
   Ramp up new users one / 10 s until requested USERS
