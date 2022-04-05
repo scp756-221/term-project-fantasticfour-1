@@ -54,27 +54,24 @@ object RUser {
 
 }
 
-/*object RPlaylist {
+// scenario to check update user functionality
+object UUser {
+  val feeder = csv("user.csv").eager.circular
 
-  val feeder = csv("playlist.csv").eager.circular
-  val user_feeder = csv("user.csv").eager.circular
-
-  val rplaylist = forever("i") {
+  val uuser = forever("i") {
     feed(feeder)
-    .feed(user_feeder)
-    .exec(http("RPlaylist ${i}")
-      .post("/api/v1/playlist/")
-      .queryParam("user_id", "#{user_id}")
-      .queryParam("title", "#{title}"))
-    .pause(1)
-
-    feed(feeder)
-    .exec(http("RPlaylist ${i}")
-      .get("/api/v1/playlist/${playlist_id}"))
+    .exec(http("UUser ${i}")
+      .put("/api/v1/user/${user_id}")
+      .body(StringBody("""{
+        "playlist":[],
+        "email":"am@gmail.com",
+        "fname":"Anisha",
+        "lname":"Mathur"
+      }""")).asJson
+      .headers("Authorization":"abc"))
     .pause(1)
   }
-
-}*/
+}
 
 object RPlaylist {
 
@@ -87,6 +84,23 @@ object RPlaylist {
     .pause(1)
   }
 
+}
+
+// scenario to check add song to playlist functionality
+object AddSongToPlaylist {
+  val p_feeder = csv("playlist.csv").eager.circular
+  val u_feeder = csv("user.csv").eager.circular
+
+  val addsong = forever("i") {
+    feed(p_feeder)
+    .feed(u_feeder)
+    .exec(http("AddSongToPlaylist ${i}")
+      .put("/api/v1/playlist/${playlist_id}")
+      .body(StringBody("""{
+        "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson
+      .headers("Authorization":"abc"))
+    .pause(1)
+  }
 }
 
 /*
@@ -196,6 +210,15 @@ class ReadPlaylistSim extends ReadTablesSim {
 
   setUp(
     scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
+class AddSongToPlaylistSim extends ReadTableSim {
+  val scnAddSong = scenario("AddSongToPlaylist")
+    .exec(AddSongToPlaylist.addsong)
+
+  setUp(
+    scnAddSong.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
 }
 
