@@ -66,6 +66,34 @@ object RPlaylist {
 
 }
 
+object CreateUser {
+  val feeder = csv("user.csv").eager.circular
+
+  var createUser = exec(http("User Body")
+                    .post("/api/v1/user/")
+                    .body(StringBody(
+                    """{
+                      "lname": "Mathur",
+                      "email": "am@gmail.com",
+                      "fname": "Anisha",
+                      "playlist": []
+                        }""")))
+                  .pause(1)
+}
+
+object CreateSong {
+  val feeder = csv("music.csv").eager.circular
+
+  var createSong = exec(http("Song Body")
+                    .post("/api/v1/music/")
+                    .body(StringBody(
+                    """{
+                      "Artist": "Stephanie Beatriz",
+                      "SongTitle": "We don't talk about Bruno"
+                        }""")))
+                  .pause(1)
+}
+
 object CreatePlaylist {
   val feeder = csv("playlist.csv").eager.circular
 
@@ -81,49 +109,14 @@ object CreatePlaylist {
     .pause(1)
   }*/
   var createPlaylist = exec(http("Playlist Body")
-                      .post("/api/v1/playlist/")
-                      .body(StringBody(
-                      """{
-                        "title": "The Best Ever!",
-                        "user_id": "423a10a6-ab66-48c5-a1c7-dffb3169d744"
+                        .post("/api/v1/playlist/")
+                        .body(StringBody(
+                        """{
+                          "title": "The Best Ever!",
+                          "user_id": "423a10a6-ab66-48c5-a1c7-dffb3169d744"
                         }""")))
-                    .pause(1)                     
+                      .pause(1)                     
 }
-
-object CreateSong {
-  val feeder = csv("music.csv").eager.circular
-
-  var createSong = forever("i") {
-    feed(feeder)
-    .exec(http("Playlist Body")
-    .post("/api/v1/playlist/")
-    .body(StringBody(
-    """{
-      "Artist": "${Artist}",
-      "SongTitle": "${SongTitle}"
-        }""")).check(status.is(200)))
-    .pause(1)
-  }
-}
-
-object CreateUser {
-  val feeder = csv("user.csv").eager.circular
-
-  var createSong = forever("i") {
-    feed(feeder)
-    .exec(http("Playlist Body")
-    .post("/api/v1/playlist/")
-    .body(StringBody(
-    """{
-      "lname": "${lname}",
-      "email": "${email}",
-      "fname": "${fname}",
-      "playlist": "${playlist}"
-        }""")))
-    .pause(1)
-  }
-}
-
 
 /*object AddSongToPlaylist {
   /* Add Existing Song to Playlist (GET) & (PUT) */
@@ -166,6 +159,30 @@ object AddSongToPlaylist {
   }
 }
 
+// scenario for remove song from playlist
+object RemoveSongFromPlaylist {
+  val p_feeder = csv("playlist.csv").eager.circular
+  val m_feeder = csv("music.csv").eager.random
+
+  val removesong = feed(p_feeder)
+                  .feed(m_feeder)
+                  .exec(http("RemoveSongFromPlaylist")
+                    .put("/api/v1/playlist/${playlist_id}/${music_id}")
+                    .body(StringBody("""{
+                      "title": "${title}"}""")).asJson)
+                  .pause(1)
+}
+
+object DeletePlaylist {
+  val p_feeder = csv("playlist.csv").eager.circular
+
+  val deleteplaylist = feed(p_feeder)
+                      .exec(http("DeletePlaylist")
+                        .delete("/api/v1/playlist/${playlist_id}")
+                        .body(StringBody("""{
+                          "user_id": "47cc62ed-bcee-434a-b35b-551e1b1e0450"}""")).asJson)
+                      .pause(1)
+}
 
 // scenario to check update user functionality
 /*object UUser {
@@ -305,6 +322,24 @@ class AddSongToPlaylistSim extends ReadTablesSim {
   ).protocols(httpProtocol)
 }
 
+class RemoveSongFromPlaylistSim extends ReadTablesSim {
+  val scnRemoveSong = scenario("RemoveSongFromPlaylist")
+    .exec(RemoveSongFromPlaylist.removesong)
+
+  setUp(
+    scnRemoveSong.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
+class DeletePlaylistSim extends ReadTablesSim {
+  val scnDeletePlaylist = scenario("DeletePlaylist")
+    .exec(DeletePlaylist.deleteplaylist)
+
+  setUp(
+    scnDeletePlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
 /*
 
 class UpdateUserSim extends ReadTableSim {
@@ -324,8 +359,26 @@ class CreatePlaylistSim extends ReadTablesSim {
   setUp(
     scnCreatePlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
-
 }
+
+class CreateSongSim extends ReadTablesSim {
+  val scnCreateSong = scenario("CreateSong")
+  .exec(CreateSong.createSong)
+
+  setUp(
+    scnCreateSong.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
+class CreateUserSim extends ReadTablesSim {
+  val scnCreateUser = scenario("CreateUser")
+  .exec(CreateUser.createUser)
+
+  setUp(
+    scnCreateUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
 /*
   Read both services concurrently at varying rates.
   Ramp up new users one / 10 s until requested USERS

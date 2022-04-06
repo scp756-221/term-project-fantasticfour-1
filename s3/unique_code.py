@@ -35,4 +35,4 @@ def exercise_hash(ex_string):
     string
         A unique hex string, generated from the two parameters.
     """
-    return _compute_hash('karthik-suresh-kumar', ex_string)
+    return _compute_hash('anishamathur', ex_string)
