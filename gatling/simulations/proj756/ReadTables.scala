@@ -153,7 +153,7 @@ object CreateUser {
 // scenario to check add song to playlist functionality
 object AddSongToPlaylist {
   val p_feeder = csv("playlist.csv").eager.circular
-  val u_feeder = csv("user.csv").eager.circular
+  val u_feeder = csv("users.csv").eager.circular
 
   val addsong = forever("i") {
     feed(p_feeder)
@@ -161,15 +161,14 @@ object AddSongToPlaylist {
     .exec(http("AddSongToPlaylist ${i}")
       .put("/api/v1/playlist/${playlist_id}")
       .body(StringBody("""{
-        "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson
-      .headers("Authorization":"abc"))
+        "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson)
     .pause(1)
   }
 }
 
 
 // scenario to check update user functionality
-object UUser {
+/*object UUser {
   val feeder = csv("user.csv").eager.circular
 
   val uuser = forever("i") {
@@ -186,7 +185,7 @@ object UUser {
     .pause(1)
   }
 }
-
+*/
 /*
   After one S1 read, pause a random time between 1 and 60 s
 */
@@ -297,7 +296,7 @@ class ReadPlaylistSim extends ReadTablesSim {
   ).protocols(httpProtocol)
 }
 
-class AddSongToPlaylistSim extends ReadTableSim {
+class AddSongToPlaylistSim extends ReadTablesSim {
   val scnAddSong = scenario("AddSongToPlaylist")
     .exec(AddSongToPlaylist.addsong)
 
@@ -305,6 +304,8 @@ class AddSongToPlaylistSim extends ReadTableSim {
     scnAddSong.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
 }
+
+/*
 
 class UpdateUserSim extends ReadTableSim {
   val scnUpdateUser = scenario("UUser")
@@ -314,6 +315,7 @@ class UpdateUserSim extends ReadTableSim {
     scnUpdateUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
 }
+*/
 
 class CreatePlaylistSim extends ReadTablesSim {
   val scnCreatePlaylist = scenario("CreatePlaylist")
