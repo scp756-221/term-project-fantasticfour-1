@@ -55,20 +55,24 @@ object RUser {
 }
 object RPlaylist {
 
-  // val feeder = csv("playlist.csv").eager.circular()
-  val feeder = csv("playlist.csv").readRecords
+  // val feeder = csv("playlist.csv").eager.circular
+  // // val feeder = csv("playlist.csv").readRecords
 
-  // val rplaylist = feed(feeder)
-  //   .exec(http("RPlaylist")
+  // val rplaylist = forever("i") {
+  //   feed(feeder)
+  //   .exec(http("RPlaylist ${i}")
   //     .get("/api/v1/playlist/${playlist_id}"))
   //   .pause(1)
 
-  val rplaylist = exec(http("RPlaylist")
-                    .get("/api/v1/playlist/${playlist_id}"))
-                    .foreach(feeder, "RPlaylist") {
-                      exec(flattenMapIntoAttributes("${playlist_id}"))
-                    }.pause(1)
-}
+  // val rplaylist = exec(http("RPlaylist")
+  //                   .get("/api/v1/playlist/${playlist_id}"))
+  //                   .foreach(feeder, "RPlaylist") {
+  //                     exec(flattenMapIntoAttributes("${playlist_id}"))
+  //                   }.pause(1)
+  val rplaylist  = exec(http("RPlaylist").get("/api/v1/playlist/cda67851-5ad5-4e28-b9c4-e2c44882100a")).pause(1)
+
+  }
+
 
 object CreateUser {
   // val feeder = csv("user.csv").eager.circular
