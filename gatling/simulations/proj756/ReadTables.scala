@@ -67,7 +67,7 @@ object RPlaylist {
 }
 
 object CreateUser {
-  val feeder = csv("user.csv").eager.circular
+  // val feeder = csv("user.csv").eager.circular
 
   var createUser = exec(http("User Body")
                     .post("/api/v1/user/")
@@ -77,12 +77,12 @@ object CreateUser {
                       "email": "am@gmail.com",
                       "fname": "Anisha",
                       "playlist": []
-                        }""")))
+                      }""")))
                   .pause(1)
 }
 
 object CreateSong {
-  val feeder = csv("music.csv").eager.circular
+  // val feeder = csv("music.csv").eager.circular
 
   var createSong = exec(http("Song Body")
                     .post("/api/v1/music/")
@@ -95,7 +95,7 @@ object CreateSong {
 }
 
 object CreatePlaylist {
-  val feeder = csv("playlist.csv").eager.circular
+  // val feeder = csv("playlist.csv").eager.circular
 
   /*var createPlaylist = forever("i") {
     feed(feeder)
@@ -146,16 +146,14 @@ object CreatePlaylist {
 // scenario to check add song to playlist functionality
 object AddSongToPlaylist {
   val p_feeder = csv("playlist.csv").eager.circular
-  val u_feeder = csv("users.csv").eager.circular
 
-  val addsong = forever("i") {
-    feed(p_feeder)
-    .feed(u_feeder)
-    .exec(http("AddSongToPlaylist ${i}")
-      .put("/api/v1/playlist/${playlist_id}")
-      .body(StringBody("""{
-        "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson)
-    .pause(1)
+  val addsong = feed(p_feeder)
+              .feed(u_feeder)
+              .exec(http("AddSongToPlaylist")
+                .put("/api/v1/playlist/${playlist_id}")
+                .body(StringBody("""{
+                  "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson)
+              .pause(1)
   }
 }
 
@@ -246,6 +244,25 @@ object RPlaylistVarying {
     .pause(1, 60)
   }
 }
+
+// object PlaylistProcess {
+//   val u_feeder = csv("user.csv").eager.circular
+//   val m_feeder = csv("music.csv").eager.random
+
+//   val playlistprocess = forever("i") {
+//     feed(u_feeder)
+//     .feed(m_feeder)
+//     .exec(http("PlaylistProcess ${i}")
+//       .post("/api/v1/playlist/")
+//       .body(StringBody(
+//       """{
+//         "title": "The Best Ever!",
+//         "user_id": "423a10a6-ab66-48c5-a1c7-dffb3169d744"
+//       }""")))
+//     .pause(1)
+//     .exec()
+//   }
+// }
 
 /*
   Failed attempt to interleave reads from User and Music tables.
@@ -376,6 +393,18 @@ class CreateUserSim extends ReadTablesSim {
 
   setUp(
     scnCreateUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
+
+class PlaylistProcessSim extends ReadTablesSim {
+  val scnPlaylistProcess = scenario("PlaylistProcess")
+    .exec(CreatePlaylist.createPlaylist)
+    .exec(AddSongToPlaylist.addsong)
+    .exec(RPlaylist.rplaylist)
+
+  setUp(
+    scnPlaylistProcess.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
 }
 
