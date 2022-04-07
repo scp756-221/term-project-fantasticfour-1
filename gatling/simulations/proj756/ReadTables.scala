@@ -55,15 +55,19 @@ object RUser {
 }
 object RPlaylist {
 
-  val feeder = csv("playlist.csv").eager.circular
+  // val feeder = csv("playlist.csv").eager.circular()
+  val feeder = csv("playlist.csv").readRecords
 
-  val rplaylist = forever("i") {
-    feed(feeder)
-    .exec(http("RPlaylist ${i}")
-      .get("/api/v1/playlist/${playlist_id}"))
-    .pause(1)
-  }
+  // val rplaylist = feed(feeder)
+  //   .exec(http("RPlaylist")
+  //     .get("/api/v1/playlist/${playlist_id}"))
+  //   .pause(1)
 
+  val rplaylist = exec(http("RPlaylist")
+                    .get("/api/v1/playlist/${playlist_id}"))
+                    .foreach(feeder, "RPlaylist") {
+                      exec(flattenMapIntoAttributes("${playlist_id}"))
+                    }.pause(1)
 }
 
 object CreateUser {
@@ -148,14 +152,12 @@ object AddSongToPlaylist {
   val p_feeder = csv("playlist.csv").eager.circular
 
   val addsong = feed(p_feeder)
-              .feed(u_feeder)
               .exec(http("AddSongToPlaylist")
                 .put("/api/v1/playlist/${playlist_id}")
                 .body(StringBody("""{
                   "title": "Playlist_5", "music_id": "6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"}""")).asJson)
               .pause(1)
   }
-}
 
 // scenario for remove song from playlist
 object RemoveSongFromPlaylist {
@@ -398,10 +400,13 @@ class CreateUserSim extends ReadTablesSim {
 
 
 class PlaylistProcessSim extends ReadTablesSim {
-  val scnPlaylistProcess = scenario("PlaylistProcess")
-    .exec(CreatePlaylist.createPlaylist)
+  val scnPlaylistProcess = scenario("PlaylistProcess").forever(){
+     exec(CreatePlaylist.createPlaylist)
     .exec(AddSongToPlaylist.addsong)
-    .exec(RPlaylist.rplaylist)
+    // .exec(RPlaylist.rplaylist)
+
+  }
+
 
   setUp(
     scnPlaylistProcess.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
