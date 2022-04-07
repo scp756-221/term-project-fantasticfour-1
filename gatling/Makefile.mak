@@ -1,5 +1,5 @@
 # Makefile for Gatling container
-REG_ID=karthik-suresh-kumar
+REG_ID=anishamathur
 CREG=ghcr.io
 
 GATLING_VER=3.4.2

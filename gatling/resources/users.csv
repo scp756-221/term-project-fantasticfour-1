@@ -1,5 +1,6 @@
-fname,lname,email,UUID
-George,Clinton,starchild@pfunk.org,b66f61e7-4fad-402f-aaad-101e3e2522d3
-Tina,Weymouth,onlytina@tomtomclub.com,75ebc062-a808-4a0f-a79b-8ac568564bfe
-Louis,Armstrong,satchmo@nola.gov,2e4c0d7e-b0e6-4739-b044-ee1d45872a7c
-Leon,Beiderbecke,bix@aa.org,423a10a6-ab66-48c5-a1c7-dffb3169d744
+"user_id","email","fname","lname","playlist"
+"423a10a6-ab66-48c5-a1c7-dffb3169d744","bix@aa.org","Beiderbecke","Leon","[]"
+"75ebc062-a808-4a0f-a79b-8ac568564bfe","onlytina@tomtomclub.com","Weymouth","Tina","[]"
+"b66f61e7-4fad-402f-aaad-101e3e2522d3","starchild@pfunk.org","Clinton","George","[]"
+"47cc62ed-bcee-434a-b35b-551e1b1e0450","am@gmail.com","Anisha","Mathur","[{""S"":""da78806f-aaec-4618-92a7-5012904b13a8""}]"
+"2e4c0d7e-b0e6-4739-b044-ee1d45872a7c","satchmo@nola.gov","Armstrong","Louis","[]"
