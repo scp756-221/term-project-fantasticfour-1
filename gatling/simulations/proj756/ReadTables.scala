@@ -394,8 +394,9 @@ class CreateSongSim extends ReadTablesSim {
 }
 
 class CreateUserSim extends ReadTablesSim {
-  val scnCreateUser = scenario("CreateUser")
-  .exec(CreateUser.createUser)
+  val scnCreateUser = scenario("CreateUser").forever(){
+    exec(CreateUser.createUser)
+  }
 
   setUp(
     scnCreateUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
@@ -406,15 +407,28 @@ class CreateUserSim extends ReadTablesSim {
 class PlaylistProcessSim extends ReadTablesSim {
   val scnPlaylistProcess = scenario("PlaylistProcess").forever(){
      exec(CreatePlaylist.createPlaylist)
+     .pause(1)
     .exec(AddSongToPlaylist.addsong)
     // .exec(RPlaylist.rplaylist)
-
   }
-
-
   setUp(
     scnPlaylistProcess.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
   ).protocols(httpProtocol)
+}
+
+class NewUserProcessSim extends ReadTablesSim {
+  val scnNewUserProcess = scenario("NewUserProcess").forever(){
+     exec(CreateUser.createUser)
+     .exec(CreateSong.createSong)
+     .exec(CreatePlaylist.createPlaylist)
+    .exec(AddSongToPlaylist.addsong)
+    // .exec(RPlaylist.rplaylist)
+  }
+  
+  setUp(
+    scnNewUserProcess.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+
 }
 
 /*
