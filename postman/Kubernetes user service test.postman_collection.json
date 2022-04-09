@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "534c5dc3-a3c0-4c3b-b12c-cdf3fa770314",
+		"name": "Kubernetes user service test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get User details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/b66f61e7-4fad-402f-aaad-101e3e2522d3",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"b66f61e7-4fad-402f-aaad-101e3e2522d3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User details",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/23f9c89a-8e8e-447e-afb4-68c46a5e8dfb ",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"23f9c89a-8e8e-447e-afb4-68c46a5e8dfb "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john_wright@hotmail.com\",\r\n    \"fname\" : \"John\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user details of new user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user details",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john1977@gmail.com\",\r\n    \"fname\" : \"John\",\r\n    \"playlist\" : []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user details after update",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user not in database",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john_1977@yahoo.com\",\r\n    \"fname\" : \"John\",\r\n    \"playlist\" : []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05b5",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"a6c1b705-70e9-440c-b4d4-10a9a3ce05b5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uid\" : \"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/login",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logoff",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"jwt\" : \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYTZjMWI3MDUtNzBlOS00NDBjLWI0ZDQtMTBhOWEzY2UwNWJkIiwidGltZSI6MTY0ODY3MTQ5OS41NDM5MDV9.k9Wh8ydAt4ejtpk2Yt3caZew-Wqvp1eENdANndKZW9Q\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/logoff",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"logoff"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "073776d2-181e-429e-beeb-fa87a67c1077",
+		"name": "Kubernetes playlist service test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create playlist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Playlist 1\",\r\n    \"user_id\" : \"23f9c89a-8e8e-447e-afb4-68c46a5e8dfa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add song to playlist",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Playlist 1\",\r\n    \"music_id\" : \"6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						"143377dc-8f28-4a73-8284-c586d258f839"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add another song to playlist",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Playlist 1\",\r\n    \"music_id\" : \"c2573193-f333-49e2-abec-182915747756\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						"143377dc-8f28-4a73-8284-c586d258f839"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete song from playlist",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"Playlist 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839/c2573193-f333-49e2-abec-182915747756",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						"143377dc-8f28-4a73-8284-c586d258f839",
+						"c2573193-f333-49e2-abec-182915747756"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get playlist",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "delete playlist",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\" : \"23f9c89a-8e8e-447e-afb4-68c46a5e8dfa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"protocol": "http",
+					"host": [
+						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						"143377dc-8f28-4a73-8284-c586d258f839"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

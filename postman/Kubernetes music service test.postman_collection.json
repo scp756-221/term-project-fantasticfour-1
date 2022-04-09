@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "57e041f6-2689-4ea6-8db2-4e77788d9d44",
+		"name": "Kubernetes music service test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get music details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/22e47f97-11ca-4c3c-8e77-f3068fddaf6e",
+					"protocol": "http",
+					"host": [
+						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"music",
+						"22e47f97-11ca-4c3c-8e77-f3068fddaf6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Music",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Artist\" : \"Steely Dan\",\r\n    \"SongTitle\" : \"Everyone's Gone to the Movies\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/",
+					"protocol": "http",
+					"host": [
+						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"music",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get music details of the new music added",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"protocol": "http",
+					"host": [
+						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"music",
+						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete music",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"protocol": "http",
+					"host": [
+						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"music",
+						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get music details of deleted music",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"protocol": "http",
+					"host": [
+						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"music",
+						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
