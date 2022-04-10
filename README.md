@@ -183,3 +183,45 @@ Assorted scripts that you can pick and choose from:
 ```
 └── ./tools
 ```
+
+### Steps for Deployment
+
+1. eks.mak - Instantiated make file for creating a AWS EKS cluster
+
+- Run the command below to start a AWS Kubernetes cluster
+~~~
+$ make -f eks.mak start
+~~~
+- To understand your current environment
+~~~
+$ kubectl config get-contexts
+~~~
+- To get the details of the cluster created and the services running in them
+~~~
+$ make -f eks.mak ls
+~~~
+
+2. k8s.mak - Instantiated make file for operating k8s
+
+After creation of cluster, to:
+- Create a namespace c756ns inside your cluster and set your cluster to use this
+- Install istio and label the c756ns namespace
+- Install the prometheus stack and the kiali operator for your cluster 
+- Build the images of the services(S1, S2, S3 and DB), push them to Github container registry
+- Deploy the services using this image onto a AWS Kubernetes cluster that was created earlier
+- Initialize DynamoDB and load it with initial data
+
+Run the Command
+~~~
+$ make -f k8s.mak provision
+~~~
+
+3. For fetching the external ip address or DNS name that is required to access your cluster for eg: testing the services using Postman
+~~~
+$ kubectl -n istio-system get service istio-ingressgateway | cut -c -140
+~~~
+
+4. To delete your cluster after use
+~~~
+make -f eks.mak stop
+~~~
