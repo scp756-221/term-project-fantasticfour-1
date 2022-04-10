@@ -10,9 +10,10 @@ Result of test in program return code:
 import argparse
 import os
 import sys
+import logging
 
 # Installed packages
-import pytest
+# import pytest
 
 # Local modules
 import create_tables
@@ -24,11 +25,14 @@ import playlist
 # not whether it's valid
 DUMMY_AUTH = 'Bearer A'
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
 
-@pytest.fixture
-def song(request):
-    # Recorded 1956
-    return ('Elvis Presley', 'Hound Dog')
+
+# @pytest.fixture
+# def song(request):
+#     # Recorded 1956
+#     return ('Elvis Presley', 'Hound Dog')
 
 
 def parse_args():
@@ -43,34 +47,34 @@ def parse_args():
     argp = argparse.ArgumentParser(
         'ci_test',
         description='Integration test of CMPT 756 sample application'
-        )
+    )
     argp.add_argument(
         'user_address',
         help="DNS name or IP address of user service."
-        )
+    )
     argp.add_argument(
         'user_port',
         type=int,
         help="Port number of user service."
-        )
+    )
     argp.add_argument(
         'music_address',
         help="DNS name or IP address of music service."
-        )
+    )
     argp.add_argument(
         'music_port',
         type=int,
         help="Port number of music service."
-        )
+    )
     argp.add_argument(
         'playlist_address',
         help="DNS name or IP address of playlist service."
-        )
+    )
     argp.add_argument(
         'playlist_port',
         type=int,
         help="Port number of playlist service."
-        )
+    )
     argp.add_argument(
         'table_suffix',
         help="Suffix to add to table names (not including leading "
@@ -139,10 +143,11 @@ def setup(args):
         args.secret_access_key,
         'Music-' + args.table_suffix,
         'User-' + args.table_suffix,
-        'PlayList-' + args.table_suffix
+        'Playlist-' + args.table_suffix
     )
 
 
+# @pytest.fixture
 def run_test(args):
     """Run the tests.
 
@@ -194,9 +199,11 @@ def run_test(args):
     trc = userv.logoff()
     assert trc == 200
 
-    pserv = playlist.PlayList(args.playlist_url, DUMMY_AUTH)
+    trc, u_id = userv.create_user(fname, lname, email)
+    assert trc == 200
+    pserv = playlist.Playlist(args.playlist_url, DUMMY_AUTH)
     title = 'My Favourites'
-    trc, p_id = pserv.create_playlist(title, u_id)
+    trc, p_id = pserv.test_create_playlist(title, u_id)
     assert trc == 200
     trc, rt, rs = pserv.get_playlist(p_id)
     assert (trc == 200 and title == rt and [] == rs)
@@ -205,10 +212,14 @@ def run_test(args):
     trc = pserv.add_song_to_playlist(p_id, m_id)
     assert trc == 200
     trc, rt, rs = pserv.get_playlist(p_id)
-    assert (trc == 200 and title == rt and [m_id] == rs)
+    assert trc == 200
+    assert title == rt
+    # logger.info('Music Ids: ' + str(rs))
+    # logger.info(m_id)
+    assert m_id in rs[0]
     trc = pserv.remove_song_from_playlist(p_id, m_id)
     assert trc == 200
-    trc = pserv.delete_playlist(p_id)
+    trc = pserv.delete_playlist(p_id, u_id)
     assert trc == 200
 
     return trc
