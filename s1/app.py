@@ -76,9 +76,9 @@ def update_user(user_id):
     response_get = response_get.json()
 
     if(response_get['Count'] == 0):
-        return json.dumps({"message" : "No such user. Please check the user id"})
+        return json.dumps({"message": "No such user."})
 
-    else: 
+    else:
         try:
             content = request.get_json()
             playlist = content['playlist']
@@ -87,14 +87,14 @@ def update_user(user_id):
             lname = content['lname']
         except Exception:
             return json.dumps({"message": "error reading arguments"})
-        
+
         url = db['name'] + '/' + db['endpoint'][3]
         response = requests.put(
             url,
             params={"objtype": "user", "objkey": user_id},
             json={"email": email, "fname": fname,
-                "lname": lname,
-                "playlist": playlist})
+                  "lname": lname,
+                  "playlist": playlist})
         return (response.json())
 
 
