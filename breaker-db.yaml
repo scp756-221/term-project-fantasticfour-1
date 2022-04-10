@@ -1,15 +1,15 @@
 # SFU CMPT 756
 # 
-# A simple circuit breaker for s1
+# A simple circuit breaker for db
 # 
 # Ref: https://istio.io/latest/docs/tasks/traffic-management/circuit-breaking/
 # 
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: cmpt756s1
+  name: cmpt756db
 spec:
-  host: cmpt756s1
+  host: cmpt756db
   subsets:
   - name: v1
     labels:
