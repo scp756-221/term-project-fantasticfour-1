@@ -210,11 +210,11 @@ Assorted scripts that you can pick and choose from:
   As part of this step, it is required to manually go to your packages in Github and change the visibilty access of these packages from private to public
 
 -After creation of cluster, to:
-  i) Create a namespace c756ns inside your cluster and set your cluster to use this
-  ii) Install istio and label the c756ns namespace
-  iii) Install the prometheus stack and the kiali operator for your cluster 
-  iv) Using the Github packages to deploy the services onto the AWS Kubernetes cluster 
-  v) Initialize DynamoDB and load it with initial data
+  - Create a namespace c756ns inside your cluster and set your cluster to use this
+  - Install istio and label the c756ns namespace
+  - Install the prometheus stack and the kiali operator for your cluster 
+  - Using the Github packages to deploy the services onto the AWS Kubernetes cluster 
+  - Initialize DynamoDB and load it with initial data
 
   Run the Command
   ~~~
