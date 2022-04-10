@@ -6,7 +6,7 @@ Python  API for the music service.
 
 # Installed packages
 import requests
-import logging
+# import logging
 # import pytest
 
 

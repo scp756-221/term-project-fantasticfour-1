@@ -10,7 +10,7 @@ Result of test in program return code:
 import argparse
 import os
 import sys
-import logging
+# import logging
 
 # Installed packages
 # import pytest
@@ -25,8 +25,8 @@ import playlist
 # not whether it's valid
 DUMMY_AUTH = 'Bearer A'
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger()
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger()
 
 
 # @pytest.fixture
