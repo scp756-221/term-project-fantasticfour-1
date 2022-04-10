@@ -99,6 +99,7 @@ def create_playlist():
         return json.dumps({"message": "request not successful"})
 
     content = response_get.json()
+    # print(content)
     playlist = content['Items'][0]['playlist']
     fname = content['Items'][0]['fname']
     lname = content['Items'][0]['lname']
