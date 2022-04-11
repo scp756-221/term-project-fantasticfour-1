@@ -47,7 +47,7 @@ installed by running
 $ aws dynamodb list-tables
 ~~~
 
-The resulting output should include tables `User` and `Music`.
+The resulting output should include tables `User`, `Music` and `Playlist`.
 
 ----
 
@@ -183,3 +183,56 @@ Assorted scripts that you can pick and choose from:
 ```
 └── ./tools
 ```
+
+### Steps for Deployment
+
+1. eks.mak - Instantiated make file for creating an AWS EKS cluster
+
+- Run the command below to start an AWS Kubernetes cluster
+  ~~~
+  $ make -f eks.mak start
+  ~~~
+- To understand your current environment
+  ~~~
+  $ kubectl config get-contexts
+  ~~~
+- To get the details of the cluster created and the services running in them
+  ~~~
+  $ make -f eks.mak ls  
+  ~~~
+
+2. k8s.mak - Instantiated make file for operating k8s
+
+- Build the docker images of the services (S1, S2, S3 and DB) and push them to Github container registry
+  ~~~
+  $ make -f k8s.mak cri
+  ~~~
+  As part of this step, it is required to manually go to your packages in Github and change the visibility access of these packages from private to public
+
+- After creation of cluster, to:
+  - Create a namespace c756ns inside your cluster and set your cluster to use this
+  - Install istio and label the c756ns namespace
+  - Install the prometheus stack and the kiali operator for your cluster 
+  - Using the Github packages to deploy the services onto the AWS Kubernetes cluster 
+  - Initialize DynamoDB and load it with initial data
+
+  Run the Command
+  ~~~
+  $ make -f k8s.mak provision
+  ~~~
+  
+  Again after this, a new image loader will be built and pushed to your packages. Like before, change the visibility access from private to public.
+
+3. For fetching the external ip address or DNS name that is required to access your cluster for eg: testing the services using Postman
+~~~
+$ kubectl -n istio-system get service istio-ingressgateway | cut -c -140
+~~~
+
+4. To delete your cluster after use
+~~~
+make -f eks.mak stop
+~~~
+
+### S3 Playlist Service
+
+A new microservice for handling playlist feature has been created. It can be used to create a new playlist for a particular user, add an existing song to the playlist, remove a song from the playlist, list the details of the playlist and delete the playlist. 

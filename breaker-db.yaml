@@ -1,0 +1,28 @@
+# SFU CMPT 756
+# 
+# A simple circuit breaker for db
+# 
+# Ref: https://istio.io/latest/docs/tasks/traffic-management/circuit-breaking/
+# 
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cmpt756db
+spec:
+  host: cmpt756db
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 5
+      http:
+        http1MaxPendingRequests: 5
+        maxRequestsPerConnection: 1
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 5s
+      baseEjectionTime: 15s
+      maxEjectionPercent: 50
