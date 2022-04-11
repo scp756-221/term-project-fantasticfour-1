@@ -63,12 +63,12 @@ templates:
 # 2. Current context is a running Kubernetes cluster (make -f {az,eks,gcp,mk}.mak start)
 #
 #  Nov 2021: Kiali is causing problems so do not deploy
-provision: istio prom kiali deploy
+provision: appns istio prom kiali deploy loader
 
 # --- deploy: Deploy and monitor the three microservices
 # Use `provision` to deploy the entire stack (including Istio, Prometheus, ...).
 # This target only deploys the sample microservices
-deploy: appns gw s1 s2 s3 db monitoring
+deploy: gw s1 s2 s3 db monitoring
 	$(KC) -n $(APP_NS) get gw,vs,deploy,svc,pods
 
 # --- rollout: Rollout new deployments of all microservices
@@ -263,14 +263,17 @@ kiali:
 
 # Install Istio
 istio:
+	$(KC) config use-context aws756
 	$(IC) install -y --set profile=demo --set hub=gcr.io/istio-release | tee -a $(LOG_DIR)/mk-reinstate.log
+	$(KC) label namespace $(APP_NS) --overwrite=true istio-injection=enabled
 
 # Create and configure the application namespace
 appns:
 	# Appended "|| true" so that make continues even when command fails
 	# because namespace already exists
+	$(KC) config use-context aws756
 	$(KC) create ns $(APP_NS) || true
-	$(KC) label namespace $(APP_NS) --overwrite=true istio-injection=enabled
+	$(KC) config set-context aws756 --namespace=$(APP_NS)
 
 # Update monitoring virtual service and display result
 monitoring: monvs
