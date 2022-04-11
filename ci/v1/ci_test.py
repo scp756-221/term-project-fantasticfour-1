@@ -203,7 +203,7 @@ def run_test(args):
     assert trc == 200
     pserv = playlist.Playlist(args.playlist_url, DUMMY_AUTH)
     title = 'My Favourites'
-    trc, p_id = pserv.test_create_playlist(title, u_id)
+    trc, p_id = pserv.create_playlist(title, u_id)
     assert trc == 200
     trc, rt, rs = pserv.get_playlist(p_id)
     assert (trc == 200 and title == rt and [] == rs)
