@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\" : \"Playlist 1\",\r\n    \"user_id\" : \"23f9c89a-8e8e-447e-afb4-68c46a5e8dfa\"\r\n}",
+					"raw": "{\r\n    \"title\" : \"Playlist 1\",\r\n    \"user_id\" : \"1002abd5-5db7-479a-a35e-5da7148acba6\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -26,10 +26,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -67,10 +67,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/f980ab18-9aa7-4db2-825d-77c6365d31ad",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -81,7 +81,7 @@
 						"api",
 						"v1",
 						"playlist",
-						"143377dc-8f28-4a73-8284-c586d258f839"
+						"f980ab18-9aa7-4db2-825d-77c6365d31ad"
 					]
 				}
 			},
@@ -108,10 +108,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/f980ab18-9aa7-4db2-825d-77c6365d31ad",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -122,7 +122,7 @@
 						"api",
 						"v1",
 						"playlist",
-						"143377dc-8f28-4a73-8284-c586d258f839"
+						"f980ab18-9aa7-4db2-825d-77c6365d31ad"
 					]
 				}
 			},
@@ -149,10 +149,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839/c2573193-f333-49e2-abec-182915747756",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/f980ab18-9aa7-4db2-825d-77c6365d31ad/6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -163,8 +163,8 @@
 						"api",
 						"v1",
 						"playlist",
-						"143377dc-8f28-4a73-8284-c586d258f839",
-						"c2573193-f333-49e2-abec-182915747756"
+						"f980ab18-9aa7-4db2-825d-77c6365d31ad",
+						"6ecfafd0-8a35-4af6-a9e2-cbd79b3abeea"
 					]
 				}
 			},
@@ -174,7 +174,31 @@
 			"name": "get playlist",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/f980ab18-9aa7-4db2-825d-77c6365d31ad",
+					"protocol": "http",
+					"host": [
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"playlist",
+						"f980ab18-9aa7-4db2-825d-77c6365d31ad"
+					]
+				}
 			},
 			"response": []
 		},
@@ -191,7 +215,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"user_id\" : \"23f9c89a-8e8e-447e-afb4-68c46a5e8dfa\"\r\n}",
+					"raw": "{\r\n    \"user_id\" : \"1002abd5-5db7-479a-a35e-5da7148acba6\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -199,10 +223,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/playlist/143377dc-8f28-4a73-8284-c586d258f839",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/playlist/f980ab18-9aa7-4db2-825d-77c6365d31ad",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -213,7 +237,7 @@
 						"api",
 						"v1",
 						"playlist",
-						"143377dc-8f28-4a73-8284-c586d258f839"
+						"f980ab18-9aa7-4db2-825d-77c6365d31ad"
 					]
 				}
 			},

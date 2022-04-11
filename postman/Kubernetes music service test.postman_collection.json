@@ -17,10 +17,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/22e47f97-11ca-4c3c-8e77-f3068fddaf6e",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/music/22e47f97-11ca-4c3c-8e77-f3068fddaf6e",
 					"protocol": "http",
 					"host": [
-						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -58,10 +58,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/music/",
 					"protocol": "http",
 					"host": [
-						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -90,10 +90,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/music/da870807-720f-408d-a086-472c48f4582e",
 					"protocol": "http",
 					"host": [
-						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -104,7 +104,7 @@
 						"api",
 						"v1",
 						"music",
-						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+						"da870807-720f-408d-a086-472c48f4582e"
 					]
 				}
 			},
@@ -122,10 +122,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/music/da870807-720f-408d-a086-472c48f4582e",
 					"protocol": "http",
 					"host": [
-						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -136,7 +136,7 @@
 						"api",
 						"v1",
 						"music",
-						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+						"da870807-720f-408d-a086-472c48f4582e"
 					]
 				}
 			},
@@ -154,10 +154,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://a3afae7d1ca9249c5a70b35bb8d17792-1658660066.us-west-2.elb.amazonaws.com:80/api/v1/music/1c3bf9ae-db93-4687-a474-3f0d36f29166",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/music/da870807-720f-408d-a086-472c48f4582e",
 					"protocol": "http",
 					"host": [
-						"a3afae7d1ca9249c5a70b35bb8d17792-1658660066",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -168,7 +168,7 @@
 						"api",
 						"v1",
 						"music",
-						"1c3bf9ae-db93-4687-a474-3f0d36f29166"
+						"da870807-720f-408d-a086-472c48f4582e"
 					]
 				}
 			},

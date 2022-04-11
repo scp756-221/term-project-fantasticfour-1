@@ -17,10 +17,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/b66f61e7-4fad-402f-aaad-101e3e2522d3",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/b66f61e7-4fad-402f-aaad-101e3e2522d3",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -32,38 +32,6 @@
 						"v1",
 						"user",
 						"b66f61e7-4fad-402f-aaad-101e3e2522d3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete User details",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "abc",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/23f9c89a-8e8e-447e-afb4-68c46a5e8dfb ",
-					"protocol": "http",
-					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
-						"us-west-2",
-						"elb",
-						"amazonaws",
-						"com"
-					],
-					"port": "80",
-					"path": [
-						"api",
-						"v1",
-						"user",
-						"23f9c89a-8e8e-447e-afb4-68c46a5e8dfb "
 					]
 				}
 			},
@@ -82,7 +50,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john_wright@hotmail.com\",\r\n    \"fname\" : \"John\"\r\n}",
+					"raw": "{\r\n    \"lname\" : \"Jordan\",\r\n    \"email\" : \"chris_jordon@gmail.com\",\r\n    \"fname\" : \"Chris\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,10 +58,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -122,10 +90,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/1002abd5-5db7-479a-a35e-5da7148acba6",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -136,7 +104,7 @@
 						"api",
 						"v1",
 						"user",
-						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+						"1002abd5-5db7-479a-a35e-5da7148acba6"
 					]
 				}
 			},
@@ -155,7 +123,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john1977@gmail.com\",\r\n    \"fname\" : \"John\",\r\n    \"playlist\" : []\r\n}",
+					"raw": "{\r\n    \"lname\" : \"Jordan\",\r\n    \"email\" : \"chris_1997@gmail.com\",\r\n    \"fname\" : \"Chris\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -163,10 +131,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/1002abd5-5db7-479a-a35e-5da7148acba6",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -177,7 +145,7 @@
 						"api",
 						"v1",
 						"user",
-						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+						"1002abd5-5db7-479a-a35e-5da7148acba6"
 					]
 				}
 			},
@@ -195,10 +163,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05bd",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/1002abd5-5db7-479a-a35e-5da7148acba6",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -209,7 +177,7 @@
 						"api",
 						"v1",
 						"user",
-						"a6c1b705-70e9-440c-b4d4-10a9a3ce05bd"
+						"1002abd5-5db7-479a-a35e-5da7148acba6"
 					]
 				}
 			},
@@ -228,7 +196,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john_1977@yahoo.com\",\r\n    \"fname\" : \"John\",\r\n    \"playlist\" : []\r\n}",
+					"raw": "{\r\n    \"lname\" : \"Wright\",\r\n    \"email\" : \"john77wright@gmail.com\",\r\n    \"fname\" : \"John\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -236,10 +204,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/a6c1b705-70e9-440c-b4d4-10a9a3ce05b5",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/57b5cb64-3167-4643-bbe3-8ef7bbf2cc2e",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -250,7 +218,7 @@
 						"api",
 						"v1",
 						"user",
-						"a6c1b705-70e9-440c-b4d4-10a9a3ce05b5"
+						"57b5cb64-3167-4643-bbe3-8ef7bbf2cc2e"
 					]
 				}
 			},
@@ -277,10 +245,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/login",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/login",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -312,10 +280,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://aaf9d73b6225142ae94690f72540ed2c-399888320.us-west-2.elb.amazonaws.com:80/api/v1/user/logoff",
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/logoff",
 					"protocol": "http",
 					"host": [
-						"aaf9d73b6225142ae94690f72540ed2c-399888320",
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
 						"us-west-2",
 						"elb",
 						"amazonaws",
@@ -327,6 +295,38 @@
 						"v1",
 						"user",
 						"logoff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User details",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "abc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://a240c933063d54c6d8f1277405fb458e-1561220895.us-west-2.elb.amazonaws.com:80/api/v1/user/1002abd5-5db7-479a-a35e-5da7148acba6",
+					"protocol": "http",
+					"host": [
+						"a240c933063d54c6d8f1277405fb458e-1561220895",
+						"us-west-2",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"1002abd5-5db7-479a-a35e-5da7148acba6"
 					]
 				}
 			},
