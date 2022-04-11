@@ -35,7 +35,7 @@ class Playlist():
         self._url = url
         self._auth = auth
 
-    def test_create_playlist(self, title, u_id):
+    def create_playlist(self, title, u_id):
         r = requests.post(
             self._url,
             json={'title': title,
@@ -43,7 +43,7 @@ class Playlist():
                   'songs': []},
             headers={'Authorization': self._auth}
         )
-        # print(r.json())
+        print(r.json())
         return r.status_code, r.json()['playlist_id']
 
     def get_playlist(self, p_id):
